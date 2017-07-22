@@ -1,0 +1,29 @@
+{
+    "name": "amazon-dash-button-service",
+    "version": "1.0.0",
+    "description": "Call HTTP Endpoints on the press of the dash button",
+    "main": "src/index.js",
+    "bin": {
+        "dash-button-service": "bin/dash-button-service"
+    },
+    "scripts": {
+        "start": "bin/dash-button-service"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maxjoehnk/home-services.git"
+    },
+    "author": "Max Jöhnk <maxjoehnk@gmail.com>",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/maxjoehnk/home-services/issues"
+    },
+    "homepage": "https://github.com/maxjoehnk/home-services#readme",
+    "dependencies": {
+        "bunyan": "^1.8.10",
+        "js-yaml": "^3.9.0",
+        "node-dash-button": "^0.6.1",
+        "node-fetch": "^1.7.1",
+        "yargs": "^8.0.2"
+    }
+}
