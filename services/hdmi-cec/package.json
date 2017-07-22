@@ -1,0 +1,28 @@
+{
+  "name": "hdmi-cec-service",
+  "version": "1.0.0",
+  "description": "Expose libcec commands as a HTTP Endpoint",
+  "main": "src/index.js",
+  "bin": {
+    "cec-service": "bin/cec-service"
+  },
+  "scripts": {
+    "start": "bin/cec-service"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxjoehnk/home-services.git"
+  },
+  "author": "Max Jöhnk <maxjoehnk@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/maxjoehnk/home-services/issues"
+  },
+  "homepage": "https://github.com/maxjoehnk/home-services#readme",
+  "dependencies": {
+    "bunyan": "^1.8.10",
+    "js-yaml": "^3.9.0",
+    "restify": "^5.0.1",
+    "yargs": "^8.0.2"
+  }
+}
