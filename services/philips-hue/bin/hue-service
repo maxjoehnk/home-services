@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+const service = require('../src');
+const yargs = require('yargs');
+const { resolve } = require('path');
+const package = require('../package.json');
+
+yargs
+    .usage('Usage: $0 [--config <path>]')
+    .count('verbose')
+    .alias('v', 'verbose')
+    .describe('verbose', 'The Log Level')
+    .string('config')
+    .alias('c', 'config')
+    .describe('config', '<path> Path to the config file')
+    .alias('h', 'help')
+    .command(['run', '*'], 'Run the Service', {}, runCommand)
+    .command('register', 'Register with a Hue Bridge', {
+        ip: {}
+    }, registerCommand)
+    .help()
+    .version(package.version)
+    .argv;
+
+function runCommand(argv) {
+    const options = {};
+
+    if (argv.verbose) {
+        options.logLevel = mapLogLevel(argv.verbose);
+    }
+
+    if (argv.config) {
+        options.config = resolve(__dirname, '..', argv.config);
+    }
+    service.start(options);
+}
+
+function registerCommand({ verbose, ip }) {
+    const options = {
+        ip,
+        logLevel: mapLogLevel(verbose)
+    };
+
+    service.register(options);
+}
+
+function mapLogLevel(level) {
+    switch (level) {
+        case 1:
+            return 'info';
+        case 2:
+            return 'debug';
+        case 3:
+            return 'trace';
+    }
+}

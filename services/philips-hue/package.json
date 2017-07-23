@@ -1,0 +1,30 @@
+{
+    "name": "philips-hue-service",
+    "version": "1.0.0",
+    "description": "Expose the Philips Hue API as a configurable HTTP API",
+    "main": "src/index.js",
+    "bin": {
+        "hue-service": "bin/hue-service"
+    },
+    "scripts": {
+        "start": "bin/philips-hue"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maxjoehnk/home-services.git"
+    },
+    "author": "Max Jöhnk <maxjoehnk@gmail.com>",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/maxjoehnk/home-services/issues"
+    },
+    "homepage": "https://github.com/maxjoehnk/home-services#readme",
+    "dependencies": {
+        "bunyan": "^1.8.10",
+        "js-yaml": "^3.9.0",
+        "node-hue-api": "^2.4.2",
+        "restify": "^5.0.1",
+        "sleep-promise": "^2.0.0",
+        "yargs": "^8.0.2"
+    }
+}
