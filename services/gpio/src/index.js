@@ -19,6 +19,7 @@ async function start(args) {
         const options = defaultOptions(args);
         logger.level(options.logLevel);
         const config = await loadConfig(options.config);
+        wpi.setup(config.numbering);
         setupInterrupts(config);
         const outputs = setupOutputs(config);
         const server = createServer();
