@@ -65,7 +65,7 @@ function setupInterrupts({ interrupts }) {
                 edge = wpi.INT_EDGE_SETUP;
                 break;
         }
-        wiringPiISR(interrupt.pin, edge, () => {
+        wpi.wiringPiISR(interrupt.pin, edge, () => {
             logger.debug(`Interrupt for Pin ${interrupt.pin} triggered`);
             interrupt.urls.forEach(url => {
                 logger.debug(`Fetching ${url}`);
