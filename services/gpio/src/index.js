@@ -82,7 +82,7 @@ function setupOutputs(config) {
     config.outputs.forEach(outputConfig => {
         const output = {};
         switch (outputConfig.mode) {
-            case 'rgb':
+            case 'rgb': {
                 const { r, g, b } = outputConfig.pins;
                 wpi.pinMode(r, wpi.SOFT_PWM_OUTPUT);
                 wpi.pinMode(g, wpi.SOFT_PWM_OUTPUT);
@@ -119,7 +119,8 @@ function setupOutputs(config) {
                     wpi.softPwmWrite(b, output.value.b);
                 };
                 break;
-            case 'digital':
+            }
+            case 'digital': {
                 const { pin } = outputConfig;
                 wpi.pinMode(pin, wpi.OUTPUT);
                 output.value = false;
@@ -138,7 +139,8 @@ function setupOutputs(config) {
                     wpi.digitalWrite(pin, output.value ? wpi.HIGH : wpi.LOW);
                 };
                 break;
-            case 'pwm':
+            }
+            case 'pwm': {
                 const { pin } = outputConfig;
                 wpi.pinMode(pin, wpi.SOFT_PWM_OUTPUT);
                 wpi.softPwmCreate(pin, 0, 255);
@@ -167,6 +169,7 @@ function setupOutputs(config) {
                     wpi.softPwmWrite(pin, output.value);
                 };
                 break;
+            }
         }
         outputs[outputConfig.name] = output;
     });
