@@ -8,6 +8,7 @@ interrupts:
         urls:
             -   http://google.com
         edge: FALLING
+        pud: DOWN
 outputs:
     -   id: led
         mode: rgb
@@ -33,4 +34,5 @@ endpoints:
         mode: set
         name: white
         value: 255
+
 ```

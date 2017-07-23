@@ -5,6 +5,7 @@ const { safeLoad } = require('js-yaml');
 const wpi = require('wiring-pi');
 const { createServer, plugins } = require('restify');
 const { createLogger } = require('bunyan');
+const fetch = require('node-fetch');
 
 const readFile = promisify(fs.readFile);
 
@@ -30,7 +31,49 @@ async function start(args) {
 }
 
 function setupInterrupts({ interrupts }) {
-
+    interrupts.forEach(interrupt => {
+        wpi.pinMode(interrupt.pin, wpi.INPUT);
+        let pud;
+        switch (interrupt.pud) {
+            case 'UP':
+                pud = wpi.PUD_UP;
+                break;
+            case 'DOWN':
+                pud = wpi.PUD_DOWN;
+                break;
+            default:
+                logger.warn(`Invalid PUD configuration for pin ${interrupt.pin}: ${interrupt.pud}. Defaulting to 'OFF'`);
+            case 'OFF':
+                pud = wpi.PUD_OFF;
+                break;
+        }
+        wpi.pullUpDnControl(interrupt.pin, pud);
+        let edge;
+        switch (interrupt.edge) {
+            case 'FALLING':
+                edge = wpi.INT_EDGE_FALLING;
+                break;
+            case 'RISING':
+                edge = wpi.INT_EDGE_RISING;
+                break;
+            case 'BOTH':
+                edge = wpi.INT_EDGE_BOTH;
+                break;
+            default:
+                logger.warn(`Invalid Edge configuration for pin ${interrupt.pin}: ${interrupt.edge}`);
+                edge = wpi.INT_EDGE_SETUP;
+                break;
+        }
+        wiringPiISR(interrupt.pin, edge, () => {
+            logger.debug(`Interrupt for Pin ${interrupt.pin} triggered`);
+            interrupt.urls.forEach(url => {
+                logger.debug(`Fetching ${url}`);
+                fetch(url)
+                    .then(res => logger.debug(`GET: ${url} - ${res.status} ${res.statusText}`))
+                    .catch(err => logger.error(err));
+            });
+        });
+    });
 }
 
 function setupOutputs(config) {
