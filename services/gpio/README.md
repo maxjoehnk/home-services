@@ -10,16 +10,16 @@ interrupts:
         edge: FALLING
         pud: DOWN
 outputs:
-    -   id: led
+    -   name: led
         mode: rgb
         pins:
             r: 1
             g: 2
             b: 3
-    -   id: light
+    -   name: light
         mode: digital
         pin: 4
-    -   id: white
+    -   name: white
         mode: pwm
         pin: 5
 endpoints:
