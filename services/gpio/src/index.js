@@ -6,6 +6,7 @@ const wpi = require('wiring-pi');
 const { createServer, plugins } = require('restify');
 const { createLogger } = require('bunyan');
 const fetch = require('node-fetch');
+const tinycolor2 = require('tinycolor2');
 
 const readFile = promisify(fs.readFile);
 
@@ -82,10 +83,89 @@ function setupOutputs(config) {
         const output = {};
         switch (outputConfig.mode) {
             case 'rgb':
+                const { r, g, b } = outputConfig.pins;
+                wpi.pinMode(r, wpi.SOFT_PWM_OUTPUT);
+                wpi.pinMode(g, wpi.SOFT_PWM_OUTPUT);
+                wpi.pinMode(b, wpi.SOFT_PWM_OUTPUT);
+                wpi.softPwmCreate(r, 0, 255);
+                wpi.softPwmCreate(g, 0, 255);
+                wpi.softPwmCreate(b, 0, 255);
+                output.value = { r: 0, g: 0, b: 0 };
+                output.set = value => {
+                    const color = tinycolor2(value);
+                    if (!color.isValid()) {
+                        logger.warn(`Invalid Color ${value}`);
+                        return;
+                    }
+                    output.value = color.toRgb();
+                    output.write();
+                };
+                output.toggle = () => {
+                    if (output.lastValue) {
+                        output.value = output.lastValue;
+                    }else {
+                        output.lastValue = output.value;
+                        output.value = {
+                            r: 0,
+                            g: 0,
+                            b: 0
+                        };
+                    }
+                    output.write();
+                };
+                output.write = () => {
+                    wpi.softPwmWrite(r, output.value.r);
+                    wpi.softPwmWrite(g, output.value.g);
+                    wpi.softPwmWrite(b, output.value.b);
+                };
                 break;
             case 'digital':
+                const { pin } = outputConfig;
+                wpi.pinMode(pin, wpi.OUTPUT);
+                output.value = false;
+                output.set = value => {
+                    if (output.value === !!value) {
+                        return;
+                    }
+                    output.value = !!value;
+                    output.write();
+                };
+                output.toggle = () => {
+                    output.value = !output.value;
+                    output.write();
+                };
+                output.write = () => {
+                    wpi.digitalWrite(pin, output.value ? wpi.HIGH : wpi.LOW);
+                };
                 break;
             case 'pwm':
+                const { pin } = outputConfig;
+                wpi.pinMode(pin, wpi.SOFT_PWM_OUTPUT);
+                wpi.softPwmCreate(pin, 0, 255);
+                output.value = 0;
+                output.set = value => {
+                    if (value > 255 || value < 0) {
+                        logger.warn(`Invalid PWM Value ${value} for Pin ${pin}`);
+                        return;
+                    }
+                    if (output.value === value) {
+                        return;
+                    }
+                    output.value = value;
+                    output.write();
+                };
+                output.toggle = () => {
+                    if (output.lastValue) {
+                        output.value = output.lastValue;
+                    }else {
+                        output.lastValue = output.value;
+                        output.value = 0;
+                    }
+                    output.write();
+                };
+                output.write = () => {
+                    wpi.softPwmWrite(pin, output.value);
+                };
                 break;
         }
         outputs[outputConfig.name] = output;
@@ -94,8 +174,16 @@ function setupOutputs(config) {
 }
 
 function setupServer(server, { endpoints }, outputs) {
-    endpoints.forEach(endpoint => {
+    endpoints.forEach((endpoint) => {
         server.get(endpoint.url, (req, res, next) => {
+            const output = outputs[endpoint.name];
+            if (endpoint.mode === 'set') {
+                output.set(endpoint.value);
+            }else if (endpoint.mode === 'toggle') {
+                output.toggle();
+            }else {
+                logger.warn(`Invalid Endpoint Mode ${endpoint.mode} for endpoint ${endpoint.url}`);
+            }
         });
     });
 }
