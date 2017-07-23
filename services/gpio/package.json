@@ -1,27 +1,28 @@
 {
-  "name": "gpio-service",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/maxjoehnk/home-services.git"
-  },
-  "author": "Max Jöhnk <maxjoehnk@gmail.com>",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/maxjoehnk/home-services/issues"
-  },
-  "homepage": "https://github.com/maxjoehnk/home-services#readme",
-  "dependencies": {
-    "bunyan": "^1.8.10",
-    "js-yaml": "^3.9.0",
-    "node-fetch": "^1.7.1",
-    "restify": "^5.0.1",
-    "tinycolor2": "^1.4.1",
-    "yargs": "^8.0.2"
-  }
+    "name": "gpio-service",
+    "version": "1.0.0",
+    "description": "Expose GPIO Ports as a HTTP Service and call remote Services on gpio interrupt",
+    "main": "src/index.js",
+    "bin": "bin/gpio-service",
+    "scripts": {
+        "start": "bin/gpio-service"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maxjoehnk/home-services.git"
+    },
+    "author": "Max Jöhnk <maxjoehnk@gmail.com>",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/maxjoehnk/home-services/issues"
+    },
+    "homepage": "https://github.com/maxjoehnk/home-services#readme",
+    "dependencies": {
+        "bunyan": "^1.8.10",
+        "js-yaml": "^3.9.0",
+        "node-fetch": "^1.7.1",
+        "restify": "^5.0.1",
+        "tinycolor2": "^1.4.1",
+        "yargs": "^8.0.2"
+    }
 }
