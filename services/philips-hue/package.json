@@ -7,7 +7,8 @@
         "hue-service": "bin/hue-service"
     },
     "scripts": {
-        "start": "bin/philips-hue"
+        "start": "bin/philips-hue",
+        "lint": "eslint src"
     },
     "repository": {
         "type": "git",
@@ -26,5 +27,8 @@
         "restify": "^5.0.1",
         "sleep-promise": "^2.0.0",
         "yargs": "^8.0.2"
+    },
+    "devDependencies": {
+        "eslint": "^4.3.0"
     }
 }
