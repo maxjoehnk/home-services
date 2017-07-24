@@ -8,7 +8,7 @@
     },
     "scripts": {
         "start": "bin/hue-service",
-        "lint": "eslint src"
+        "lint": "eslint src/** bin/**"
     },
     "repository": {
         "type": "git",
