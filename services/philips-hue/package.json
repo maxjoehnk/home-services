@@ -7,7 +7,7 @@
         "hue-service": "bin/hue-service"
     },
     "scripts": {
-        "start": "bin/philips-hue",
+        "start": "bin/hue-service",
         "lint": "eslint src"
     },
     "repository": {
