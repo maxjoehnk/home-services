@@ -3,23 +3,21 @@ const { resolve } = require('path');
 const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
 const { createServer, plugins } = require('restify');
-const { createLogger } = require('bunyan');
 const { HueApi, nupnpSearch, upnpSearch } = require('node-hue-api');
 const sleep = require('sleep-promise');
+const logger = require('./logger');
+const routes = require('./routes');
 
 const readFile = promisify(fs.readFile);
-
-const logger = createLogger({
-    name: 'philips-hue-service'
-});
 
 async function start(args) {
     try {
         const options = defaultOptions(args);
         logger.level(options.logLevel);
         const config = await loadConfig(options.config);
+        const hue = new HueApi(config.bridge.ip, config.bridge.username);
         const server = createServer();
-        setupServer(server, config);
+        setupServer(server, config, hue);
         server.listen(config.port, () => {
             logger.info(`Listening on Port ${config.port}`);
         });
@@ -68,8 +66,16 @@ async function register(args) {
     }
 }
 
-function setupServer(server, config) {
-    
+function setupServer(server, config, api) {
+    server.get('/lights', routes.getLights(api));
+    server.get('/lights/power/off', routes.setPowerAll(api, false));
+    server.get('/lights/power/on', routes.setPowerAll(api, true));
+    server.get('/lights/:id/power/off', routes.setPower(api, false));
+    server.get('/lights/:id/power/on', routes.setPower(api, true));
+    server.get('/lights/brightness/:value', routes.setBrightnessAll(api));
+    server.get('/lights/:id/brightness/:value', routes.setBrightness(api));
+    server.get('/groups', routes.getGroups(api));
+    server.get('/groups/:id', routes.getGroup(api));
 }
 
 function defaultOptions(options) {
