@@ -2,8 +2,8 @@ const fs = require('fs');
 const { resolve } = require('path');
 const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
-const { createServer, plugins } = require('restify');
-const { HueApi, nupnpSearch, upnpSearch } = require('node-hue-api');
+const { createServer } = require('restify');
+const { HueApi, nupnpSearch, upnpSearch } = require('node-hue-api');
 const sleep = require('sleep-promise');
 const logger = require('./logger');
 const routes = require('./routes');
@@ -56,7 +56,9 @@ async function register(args) {
             const user = await hue.registerUser(options.ip);
             console.log(`Username: ${user}`);
             return;
-        }catch (err) {}
+        }catch (err) {
+            logger.trace(err);
+        }
         await sleep(2000); // Don't hammer the api
         i--;
         if (i < 0) {
