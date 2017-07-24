@@ -74,6 +74,7 @@ function setupServer(server, config, api) {
     server.get('/lights/power/on', routes.setPowerAll(api, true));
     server.get('/lights/:id/power/off', routes.setPower(api, false));
     server.get('/lights/:id/power/on', routes.setPower(api, true));
+    server.get('/lights/:id/power/toggle', routes.togglePower(api));
     server.get('/lights/brightness/:value', routes.setBrightnessAll(api));
     server.get('/lights/:id/brightness/:value', routes.setBrightness(api));
     server.get('/groups', routes.getGroups(api));

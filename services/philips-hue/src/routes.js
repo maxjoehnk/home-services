@@ -32,6 +32,24 @@ function setPower(api, power) {
     };
 }
 
+function togglePower(api) {
+    return async function(req, res) {
+        logger.debug(`Toggling Light ${req.params.id}`);
+        const { state } = await api.lightStatus(req.params.id);
+        let power;
+        if (state.on) {
+            power = false;
+        }else {
+            power = true;
+        }
+        const result = await api.setLightState(req.params.id, {
+            on: power
+        });
+        logger.trace(result);
+        res.send(204);
+    };
+}
+
 function setBrightnessAll(api) {
     return async function(req, res) {
         logger.debug(`Setting all Lights to ${req.params.value} brightness`);
@@ -77,6 +95,7 @@ module.exports = {
     getLights,
     setPower,
     setPowerAll,
+    togglePower,
     setBrightness,
     setBrightnessAll,
     getGroups,
