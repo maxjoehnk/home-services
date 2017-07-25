@@ -7,7 +7,8 @@
         "dash-button-service": "bin/dash-button-service"
     },
     "scripts": {
-        "start": "bin/dash-button-service"
+        "start": "bin/dash-button-service",
+        "lint": "eslint src/** bin/**"
     },
     "repository": {
         "type": "git",
@@ -25,5 +26,8 @@
         "node-dash-button": "^0.6.1",
         "node-fetch": "^1.7.1",
         "yargs": "^8.0.2"
+    },
+    "devDependencies": {
+        "eslint": "^4.3.0"
     }
 }
