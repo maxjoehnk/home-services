@@ -6,6 +6,7 @@ const wpi = require('wiring-pi');
 const { createServer } = require('restify');
 const fetch = require('node-fetch');
 const tinycolor2 = require('tinycolor2');
+const debounce = require('lodash.debounce');
 const logger = require('./logger');
 
 const readFile = promisify(fs.readFile);
@@ -62,7 +63,7 @@ function setupInterrupts({ interrupts }) {
                 edge = wpi.INT_EDGE_SETUP;
                 break;
         }
-        wpi.wiringPiISR(interrupt.pin, edge, () => {
+        wpi.wiringPiISR(interrupt.pin, edge, debounce(() => {
             logger.debug(`Interrupt for Pin ${interrupt.pin} triggered`);
             interrupt.urls.forEach(url => {
                 logger.debug(`Fetching ${url}`);
@@ -70,7 +71,7 @@ function setupInterrupts({ interrupts }) {
                     .then(res => logger.debug(`GET: ${url} - ${res.status} ${res.statusText}`))
                     .catch(err => logger.error(err));
             });
-        });
+        }, 100));
     });
 }
 
