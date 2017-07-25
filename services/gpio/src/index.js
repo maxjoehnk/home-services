@@ -4,15 +4,11 @@ const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
 const wpi = require('wiring-pi');
 const { createServer, plugins } = require('restify');
-const { createLogger } = require('bunyan');
 const fetch = require('node-fetch');
 const tinycolor2 = require('tinycolor2');
+const logger = require('./logger');
 
 const readFile = promisify(fs.readFile);
-
-const logger = createLogger({
-    name: 'gpio-service'
-});
 
 async function start(args) {
     try {
