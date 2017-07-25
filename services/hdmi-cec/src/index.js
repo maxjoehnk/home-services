@@ -46,7 +46,7 @@ function setupServer(server, config) {
         );
     }
     custom.forEach(({ url, cmd }) => {
-        server.get(url, async (req, res, next) => {
+        server.get(url, async(req, res, next) => {
             try {
                 const result = await cec(cmd);
                 res.send(200, result);
@@ -129,13 +129,13 @@ async function loadConfig(path) {
 function cec(cmd) {
     return new Promise((resolve, reject) => {
         logger.debug(`Executing CEC Command '${cmd}'`);
-        exec(`echo "${cmd}" | cec-client -s`, (err, stdout, stderr) => {
+        exec(`echo "${cmd}" | cec-client -s`, (err, stdout) => {
             if (err) {
-                log.error(err);
+                logger.error(err);
                 return reject(err);
             }
             return resolve(stdout);
-        })
+        });
     });
 }
 
