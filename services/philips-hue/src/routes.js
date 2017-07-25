@@ -8,6 +8,14 @@ function getLights(api) {
     };
 }
 
+function getLight(api) {
+    return async function(req, res) {
+        const light = await api.lightStatus(req.params.id);
+        logger.trace(light);
+        res.send(200, light);
+    };
+}
+
 function setPowerAll(api, power) {
     return async function(req, res) {
         logger.debug('Turning off all Lights');
@@ -93,6 +101,7 @@ function getGroup(api) {
 
 module.exports = {
     getLights,
+    getLight,
     setPower,
     setPowerAll,
     togglePower,

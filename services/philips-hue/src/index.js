@@ -70,6 +70,7 @@ async function register(args) {
 
 function setupServer(server, config, api) {
     server.get('/lights', routes.getLights(api));
+    server.get('/lights/:id', routes.getLight(api));
     server.get('/lights/power/off', routes.setPowerAll(api, false));
     server.get('/lights/power/on', routes.setPowerAll(api, true));
     server.get('/lights/:id/power/off', routes.setPower(api, false));
