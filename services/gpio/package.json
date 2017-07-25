@@ -6,7 +6,8 @@
     "bin": "bin/gpio-service",
     "scripts": {
         "start": "bin/gpio-service",
-        "lint": "eslint bin/** src/**"
+        "lint": "eslint bin/** src/**",
+        "postinstall": "npm i wiring-pi"
     },
     "repository": {
         "type": "git",
