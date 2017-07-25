@@ -4,13 +4,9 @@ const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
 const { exec } = require('child_process');
 const { createServer, plugins } = require('restify');
-const { createLogger } = require('bunyan');
+const logger = require('./logger');
 
 const readFile = promisify(fs.readFile);
-
-const logger = createLogger({
-    name: 'hdmi-cec-service'
-});
 
 async function start(args) {
     try {
