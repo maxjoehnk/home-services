@@ -71,7 +71,7 @@ function setupInterrupts({ interrupts }) {
                     .then(res => logger.debug(`GET: ${url} - ${res.status} ${res.statusText}`))
                     .catch(err => logger.error(err));
             });
-        }, 100));
+        }, interrupt.debounce || 100));
     });
 }
 
