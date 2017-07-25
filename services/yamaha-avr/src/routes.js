@@ -80,9 +80,9 @@ function getVolume(avr) {
 
 function setVolume(avr) {
     return async function(req, res, next) {
-        logger.debug(`Setting Volume to ${req.params.id}`);
+        logger.debug(`Setting Volume to ${req.params.value}`);
         try {
-            await avr.setVolumeTo(req.params.id);
+            await avr.setVolumeTo(req.params.value);
         }catch (err) {
             return next(err);
         }
