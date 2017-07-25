@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
 const wpi = require('wiring-pi');
-const { createServer, plugins } = require('restify');
+const { createServer } = require('restify');
 const fetch = require('node-fetch');
 const tinycolor2 = require('tinycolor2');
 const logger = require('./logger');
@@ -41,7 +41,7 @@ function setupInterrupts({ interrupts }) {
                 break;
             default:
                 logger.warn(`Invalid PUD configuration for pin ${interrupt.pin}: ${interrupt.pud}. Defaulting to 'OFF'`);
-            case 'OFF':
+            case 'OFF': // eslint-disable-line no-fallthrough
                 pud = wpi.PUD_OFF;
                 break;
         }
@@ -174,8 +174,8 @@ function setupOutputs(config) {
 }
 
 function setupServer(server, { endpoints }, outputs) {
-    endpoints.forEach((endpoint) => {
-        server.get(endpoint.url, (req, res, next) => {
+    endpoints.forEach(endpoint => {
+        server.get(endpoint.url, (req, res) => {
             const output = outputs[endpoint.name];
             if (endpoint.mode === 'set') {
                 output.set(endpoint.value);
