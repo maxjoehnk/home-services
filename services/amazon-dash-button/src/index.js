@@ -2,7 +2,7 @@ const fs = require('fs');
 const { resolve } = require('path');
 const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
-const DashButton = require('node-dash-button')
+const DashButton = require('node-dash-button');
 const { createLogger } = require('bunyan');
 const fetch = require('node-fetch');
 
@@ -18,9 +18,9 @@ async function start(args) {
         logger.level(options.logLevel);
         const config = await loadConfig(options.config);
         config.buttons.forEach(({ address, urls }) => {
-            const button = DashButton(address, null, null, 'all');
+            const button = DashButton(address, null, null, 'all'); // eslint-disable-line new-cap
             button.on('detected', () => {
-                logger.debug(`Button ${address} pressed`);
+                logger.debug(`Button ${address} pressed`);
                 urls.forEach(url => {
                     logger.debug(`Fetching ${url}`);
                     fetch(url)
