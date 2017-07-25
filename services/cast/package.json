@@ -1,0 +1,33 @@
+{
+    "name": "cast-service",
+    "version": "1.0.0",
+    "description": "Expose Chromecasts as a HTTP Endpoint",
+    "main": "src/index.js",
+    "bin": "bin/cast-service",
+    "scripts": {
+        "start": "bin/cast-service",
+        "lint": "eslint src/** bin/**"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maxjoehnk/home-services.git"
+    },
+    "author": "Max Jöhnk <maxjoehnk@gmail.com>",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/maxjoehnk/home-services/issues"
+    },
+    "homepage": "https://github.com/maxjoehnk/home-services#readme",
+    "dependencies": {
+        "bunyan": "^1.8.10",
+        "bunyan-format": "^0.2.1",
+        "castv2-client": "^1.2.0",
+        "js-yaml": "^3.9.0",
+        "mdns": "^2.3.3",
+        "restify": "^5.0.1",
+        "yargs": "^8.0.2"
+    },
+    "devDependencies": {
+        "eslint": "^4.3.0"
+    }
+}
