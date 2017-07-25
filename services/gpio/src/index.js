@@ -179,10 +179,13 @@ function setupServer(server, { endpoints }, outputs) {
             const output = outputs[endpoint.name];
             if (endpoint.mode === 'set') {
                 output.set(endpoint.value);
+                res.send(204);
             }else if (endpoint.mode === 'toggle') {
                 output.toggle();
+                res.send(204);
             }else {
                 logger.warn(`Invalid Endpoint Mode ${endpoint.mode} for endpoint ${endpoint.url}`);
+                res.send(500);
             }
         });
     });
