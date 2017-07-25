@@ -16,7 +16,7 @@ yargs
     .help()
     .version(package.version);
 
-const { argv } = yargs;
+const { argv } = yargs;
 
 const options = {};
 

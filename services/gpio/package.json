@@ -5,7 +5,8 @@
     "main": "src/index.js",
     "bin": "bin/gpio-service",
     "scripts": {
-        "start": "bin/gpio-service"
+        "start": "bin/gpio-service",
+        "lint": "eslint bin/** src/**"
     },
     "repository": {
         "type": "git",
@@ -26,5 +27,8 @@
         "restify": "^5.0.1",
         "tinycolor2": "^1.4.1",
         "yargs": "^8.0.2"
+    },
+    "devDependencies": {
+        "eslint": "^4.3.0"
     }
 }
