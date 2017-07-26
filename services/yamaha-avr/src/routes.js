@@ -70,8 +70,9 @@ function getVolume(avr) {
     return async function(req, res, next) {
         logger.debug('Requesting Volume');
         try {
-            const { getVolume } = await avr.getBasicInfo();
-            res.send(200, getVolume());
+            const volume = await avr.getVolume();
+            logger.trace(volume);
+            res.json(200, { volume });
         }catch (err) {
             return next(err);
         }
