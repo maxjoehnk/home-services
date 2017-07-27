@@ -1,0 +1,35 @@
+{
+    "name": "scenes-service",
+    "version": "1.0.0",
+    "description": "Configure Scenes",
+    "main": "src/index.js",
+    "bin": "bin/scenes-service",
+    "scripts": {
+        "start": "bin/scenes-service",
+        "lint": "eslint src/** bin/**"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maxjoehnk/home-services.git"
+    },
+    "author": "Max Jöhnk <maxjoehnk@gmail.com>",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/maxjoehnk/home-services/issues"
+    },
+    "homepage": "https://github.com/maxjoehnk/home-services#readme",
+    "dependencies": {
+        "bunyan": "^1.8.10",
+        "bunyan-format": "^0.2.1",
+        "js-yaml": "^3.9.0",
+        "node-fetch": "^1.7.1",
+        "redux": "^3.7.2",
+        "redux-saga": "^0.15.6",
+        "remote-redux-devtools": "^0.5.12",
+        "restify": "^5.0.1",
+        "yargs": "^8.0.2"
+    },
+    "devDependencies": {
+        "eslint": "^4.3.0"
+    }
+}
