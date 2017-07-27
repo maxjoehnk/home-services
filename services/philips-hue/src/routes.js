@@ -135,6 +135,33 @@ function setBrightness(api) {
     };
 }
 
+function setBrightnessGroup(api) {
+    return async function(req, res, next) {
+        logger.debug(`Setting Group ${req.params.id} to ${req.params.value} brightness`);
+        try {
+            const result = await api.setGroupLightState(req.params.id, {
+                bri: req.params.value
+            });
+            logger.trace(result);
+            res.send(204);
+        }catch (err) {
+            next(err);
+        }
+    };
+}
+
+function getBrightnessGroup(api) {
+    return async function(req, res, next) {
+        logger.debug(`Getting Group ${req.params.id} brightness`);
+        try {
+            const { lastAction } = await api.getGroup(req.params.id);
+            res.json(200, { brightness: lastAction.bri });
+        }catch (err) {
+            next(err);
+        }
+    };
+}
+
 function getGroups(api) {
     return async function(req, res, next) {
         try {
@@ -170,6 +197,8 @@ module.exports = {
     togglePowerGroup,
     setBrightness,
     setBrightnessAll,
+    setBrightnessGroup,
+    getBrightnessGroup,
     getGroups,
     getGroup
 };

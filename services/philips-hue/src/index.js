@@ -83,6 +83,8 @@ function setupServer(server, config, api) {
     server.get('/groups/:id/power/on', routes.setPowerGroup(api, true));
     server.get('/groups/:id/power/off', routes.setPowerGroup(api, false));
     server.get('/groups/:id/power/toggle', routes.togglePowerGroup(api));
+    server.get('/groups/:id/brightness', routes.getBrightnessGroup(api));
+    server.get('/groups/:id/brightness/:value', routes.setBrightnessGroup(api));
 }
 
 function defaultOptions(options) {
