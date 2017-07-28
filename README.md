@@ -1,5 +1,7 @@
 # home-services
-A Collection of Micro Services for Home Automation
+[![Build Status](https://travis-ci.org/maxjoehnk/home-services.svg?branch=master)](https://travis-ci.org/maxjoehnk/home-services)
+
+A Collection of Micro Services for Home Automation.
 
 Each Service is supposed to do one thing, but do it good.
 
