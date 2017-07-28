@@ -1,0 +1,26 @@
+{
+  "name": "@home-services/url-executor",
+  "version": "1.0.0",
+  "description": "Url fetching helper",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint src/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxjoehnk/home-services.git"
+  },
+  "author": "Max Jöhnk <maxjoehnk@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/maxjoehnk/home-services/issues"
+  },
+  "homepage": "https://github.com/maxjoehnk/home-services#readme",
+  "dependencies": {
+    "debug": "^2.6.8",
+    "node-fetch": "^1.7.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.3.0"
+  }
+}
