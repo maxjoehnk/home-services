@@ -2,7 +2,7 @@ const fs = require('fs');
 const { resolve } = require('path');
 const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
-const fetch = require('node-fetch');
+const execute = require('../../../shared/url-executor');
 const { scheduleJob } = require('node-schedule');
 const logger = require('./logger');
 
@@ -22,17 +22,9 @@ async function start(args) {
 function setupTimer({ timers }) {
     timers.forEach(({ cron, urls }) => {
         logger.debug(`Fetching with cron format ${cron}`, urls);
-        scheduleJob(cron, () => {
-            urls.forEach(async url => {
-                logger.debug(`Fetching Url ${url}`);
-                try {
-                    const res = await fetch(url);
-                    logger.debug(`GET: ${url} - ${res.status} ${res.statusText}`);
-                }catch (err) {
-                    logger.error(err, `Error while fetching ${url}`);
-                }
-            });
-        });
+        scheduleJob(cron, () =>
+            execute(urls).catch(err =>
+                logger.error(err)));
     });
 }
 
