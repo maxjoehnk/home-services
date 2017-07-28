@@ -11,6 +11,7 @@ Each Service is supposed to do one thing, but do it good.
 - [GPIO](https://github.com/maxjoehnk/home-services/tree/master/services/generic-gpio)
 - [HDMI-CEC](https://github.com/maxjoehnk/home-services/tree/master/services/generic-hdmi-cec)
 - [Scenes](https://github.com/maxjoehnk/home-services/tree/master/services/generic-scenes)
+- Timers ([#1](https://github.com/maxjoehnk/home-services/issues/1))
 
 ## Google
 - [Cast](https://github.com/maxjoehnk/home-services/tree/master/services/google-cast)
