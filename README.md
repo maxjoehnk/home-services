@@ -14,7 +14,7 @@ This also allows a distributed installation of services, e.g. on multiple Raspbe
 - [GPIO](https://github.com/maxjoehnk/home-services/tree/master/services/generic-gpio)
 - [HDMI-CEC](https://github.com/maxjoehnk/home-services/tree/master/services/generic-hdmi-cec)
 - [Scenes](https://github.com/maxjoehnk/home-services/tree/master/services/generic-scenes)
-- Timers ([#1](https://github.com/maxjoehnk/home-services/issues/1))
+- [Timers](https://github.com/maxjoehnk/home-services/tree/master/services/generic-timers)
 
 ## Google
 - [Cast](https://github.com/maxjoehnk/home-services/tree/master/services/google-cast)
