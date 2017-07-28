@@ -6,6 +6,7 @@ const { createServer } = require('restify');
 const mdns = require('mdns');
 const logger = require('./logger');
 const routes = require('./routes');
+const cast = require('./cast');
 
 const readFile = promisify(fs.readFile);
 
@@ -16,8 +17,12 @@ async function start(args) {
         const config = await loadConfig(options.config);
         const browser = mdns.createBrowser(mdns.tcp('googlecast'));
         const services = {};
-        browser.on('serviceUp', service => {
-            logger.debug(`Found ${service.txtRecord.fn}`, service);
+        browser.on('serviceUp', async service => {
+            const name = service.txtRecord.fn;
+            logger.debug(`Found ${name}`, service);
+            if (config.devices[name]) {
+                cast.setup(service, config.devices[name]);
+            }
             services[service.name] = service;
         });
         browser.on('serviceDown', service => {
@@ -50,7 +55,8 @@ function defaultOptions(options) {
 
 function defaultConfig(config) {
     const defaults = {
-        port: 8080
+        port: 8080,
+        devices: {}
     };
     return Object.assign({}, defaults, config);
 }
