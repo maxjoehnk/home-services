@@ -4,7 +4,7 @@ const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
 const DashButton = require('node-dash-button');
 const { createLogger } = require('bunyan');
-const fetch = require('node-fetch');
+const execute = require('../../../shared/url-executor');
 
 const readFile = promisify(fs.readFile);
 
@@ -21,12 +21,7 @@ async function start(args) {
             const button = DashButton(address, null, null, 'all'); // eslint-disable-line new-cap
             button.on('detected', () => {
                 logger.debug(`Button ${address} pressed`);
-                urls.forEach(url => {
-                    logger.debug(`Fetching ${url}`);
-                    fetch(url)
-                        .then(res => logger.debug(`GET: ${url} - ${res.status} ${res.statusText}`))
-                        .catch(err => logger.error(err));
-                });
+                execute(urls).catch(err => logger.error(err));
             });
         });
     }catch (err) {

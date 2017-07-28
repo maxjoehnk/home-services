@@ -24,7 +24,6 @@
         "bunyan": "^1.8.10",
         "js-yaml": "^3.9.0",
         "node-dash-button": "^0.6.1",
-        "node-fetch": "^1.7.1",
         "yargs": "^8.0.2"
     },
     "devDependencies": {
