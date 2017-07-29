@@ -43,18 +43,21 @@ async function setup(service, config) {
     let lastAppStatus;
     let lastStatus;
     let interval;
+    let currentApp;
     const handleStatusUpdate = status => {
         logger.trace(status, 'Device Status');
         if (lastStatus && status.volume.level !== lastStatus.volume.level) {
-            emit(config.events, 'volume');
+            emit(config, 'volume', currentApp);
         }
         if (lastStatus && status.volume.muted !== lastStatus.volume.muted) {
-            emit(config.events, status.volume.muted ? 'mute' : 'unmute');
+            emit(config, status.volume.muted ? 'mute' : 'unmute', currentApp);
         }
         if (status.applications && status.applications.length > 0) {
             if (!lastStatus || !lastStatus.applications || lastStatus.applications !== status.applications) {
                 //!app && app.close();
                 // TODO: test for media capability
+                currentApp = status.applications[0];
+                emit(config, 'launch', currentApp);
                 client.join(status.applications[0], DefaultMediaReceiver, (err, app) => {
                     if (err) {
                         console.error(err);
@@ -79,6 +82,7 @@ async function setup(service, config) {
                 });
             }
         }else {
+            currentApp = null;
             if (interval) {
                 clearInterval(interval);
             }
@@ -88,12 +92,18 @@ async function setup(service, config) {
     const handleAppStatusUpdate = status => {
         logger.trace(status, 'App Status');
         if (lastAppStatus && lastAppStatus.playerState !== status.playerState) {
-            switch (status.playerState) { // BUFFERING, IDLE
+            switch (status.playerState) {
                 case 'PAUSED':
-                    emit(config.events, 'pause', lastStatus.applications[0]);
+                    emit(config, 'pause', currentApp);
                     break;
                 case 'PLAYING':
-                    emit(config.events, 'play', lastStatus.applications[0]);
+                    emit(config, 'play', currentApp);
+                    break;
+                case 'IDLE':
+                    emit(config, 'idle', currentApp);
+                    break;
+                case 'BUFFERING':
+                    emit(config, 'buffering', currentApp);
                     break;
             }
         }
@@ -109,23 +119,25 @@ async function setup(service, config) {
     client.on('status', status => handleStatusUpdate(status));
 }
 
-async function emit(events, name, application) {
-    logger.debug(`Executing Urls for event ${name}`);
-    if (events[name]) {
-        let urls;
-        if (events[name] instanceof Array) {
-            urls = events[name];
-        }else {
-            urls = events[name].urls;
-            const filter = events[name].filter;
-            if (filter && application && application.displayName) {
-                if (!filter.includes(application.displayName)) {
-                    logger.debug(`Skipping Event Execution for App ${application.displayName}`);
-                    return;
+async function emit(handler, name, application) {
+    logger.debug(`Emitting event ${name}`);
+    for (let i = 0; i < handler.length; i++) {
+        const { events, applications, urls } = handler[i];
+        logger.trace(handler[i]);
+        if (events.includes(name)) {
+            if (applications && application && application.displayName) {
+                if (!applications.includes(application.displayName)) {
+                    logger.debug(`Skipping Event execution for App ${application.displayName}`);
+                    continue;
                 }
             }
+            logger.debug(`Executing Urls for event ${name}`);
+            try {
+                await execute(urls);
+            }catch (err) {
+                logger.error(err);
+            }
         }
-        await execute(urls);
     }
 }
 

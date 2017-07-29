@@ -2,24 +2,55 @@
 Expose Chromecasts as a http api
 
 # Configuration
+Available Event Types:
+
+- play
+- pause
+- idle
+- buffering
+- launch
+- volume
+- mute
+- unmute
+
 ```yaml
 port: 8080
 devices:
     My Chromecast:
-        events:
-            play:
-                filter:
-                    - Google Play Music
-                    - SoundCloud
-                urls:
-                    - http://google.com
-            pause:
+        -   events:
+                - play
+            applications:
+                - Netflix
+            urls:
                 - http://google.com
-            mute:
+        -   events:
+                - pause
+            applications:
+                - Netflix
+            urls:
                 - http://google.com
-            unmute:
+        -   events:
+                - launch
+            applications:
+                - Netflix
+            urls:
                 - http://google.com
-            volume:
+        -   events:
+                - play:
+            applications:
+                - Google Play Music
+                - SoundCloud
+            urls:
+                - http://google.com
+        -   events:
+                - pause
+            urls:
+                - http://google.com
+        -   events:
+                - mute
+                - unmute
+                - volume
+            urls:
                 - http://google.com
 
 ```
