@@ -42,6 +42,7 @@ async function setup(service, config) {
     const client = await connect(service);
     let lastAppStatus;
     let lastStatus;
+    let interval;
     const handleStatusUpdate = status => {
         logger.trace(status, 'Device Status');
         if (lastStatus && status.volume.level !== lastStatus.volume.level) {
@@ -65,9 +66,21 @@ async function setup(service, config) {
                         }
                         appStatus && handleAppStatusUpdate(appStatus);
                     });
+                    interval = setInterval(() => {
+                        app.getStatus((err, appStatus) => {
+                            if (err) {
+                                return logger.error(err);
+                            }
+                            appStatus && handleAppStatusUpdate(appStatus);
+                        });
+                    }, 1000);
                     app.on('status', appStatus => handleAppStatusUpdate(appStatus));
                     logger.trace(app, 'Running Application');
                 });
+            }
+        }else {
+            if (interval) {
+                clearInterval(interval);
             }
         }
         lastStatus = status;
