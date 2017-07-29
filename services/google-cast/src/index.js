@@ -15,7 +15,14 @@ async function start(args) {
         const options = defaultOptions(args);
         logger.level(options.logLevel);
         const config = await loadConfig(options.config);
-        const browser = mdns.createBrowser(mdns.tcp('googlecast'));
+        const resolverSequence = [
+            mdns.rst.DNSServiceResolve(),                 // eslint-disable-line new-cap
+            'DNSServiceGetAddrInfo' in mdns.dns_sd ?
+                mdns.rst.DNSServiceGetAddrInfo() :        // eslint-disable-line new-cap
+                mdns.rst.getaddrinfo({ families: [4] }),
+            mdns.rst.makeAddressesUnique()
+        ];
+        const browser = mdns.createBrowser(mdns.tcp('googlecast'), { resolverSequence });
         const services = {};
         browser.on('serviceUp', async service => {
             const name = service.txtRecord.fn;
