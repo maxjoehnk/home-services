@@ -1,7 +1,7 @@
 const { Client } = require('castv2-client');
 const { DefaultMediaReceiver } = require('castv2-client');
 const logger = require('./logger');
-const fetch = require('node-fetch');
+const execute = require('../../../shared/url-executor');
 
 function connect(service) {
     const client = new Client();
@@ -45,10 +45,10 @@ async function setup(service, config) {
     const handleStatusUpdate = status => {
         logger.trace(status, 'Device Status');
         if (lastStatus && status.volume.level !== lastStatus.volume.level) {
-            execute(config.events, 'volume');
+            emit(config.events, 'volume');
         }
         if (lastStatus && status.volume.muted !== lastStatus.volume.muted) {
-            execute(config.events, status.volume.muted ? 'mute' : 'unmute');
+            emit(config.events, status.volume.muted ? 'mute' : 'unmute');
         }
         if (status.applications && status.applications.length > 0) {
             if (!lastStatus || !lastStatus.applications || lastStatus.applications !== status.applications) {
@@ -77,10 +77,10 @@ async function setup(service, config) {
         if (lastAppStatus && lastAppStatus.playerState !== status.playerState) {
             switch (status.playerState) { // BUFFERING, IDLE
                 case 'PAUSED':
-                    execute(config.events, 'pause', lastStatus.applications[0]);
+                    emit(config.events, 'pause', lastStatus.applications[0]);
                     break;
                 case 'PLAYING':
-                    execute(config.events, 'play', lastStatus.applications[0]);
+                    emit(config.events, 'play', lastStatus.applications[0]);
                     break;
             }
         }
@@ -96,7 +96,7 @@ async function setup(service, config) {
     client.on('status', status => handleStatusUpdate(status));
 }
 
-async function execute(events, name, application) {
+async function emit(events, name, application) {
     logger.debug(`Executing Urls for event ${name}`);
     if (events[name]) {
         let urls;
@@ -112,12 +112,7 @@ async function execute(events, name, application) {
                 }
             }
         }
-        await Promise.all(urls.map(url => {
-            logger.debug(`Fetching ${url}`);
-            return fetch(url)
-                .then(res => logger.debug(`GET: ${url} - ${res.status} ${res.statusText}`))
-                .catch(err => logger.error(err));
-        }));
+        await execute(urls);
     }
 }
 
