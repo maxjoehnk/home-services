@@ -1,0 +1,7 @@
+timers:
+    -   cron: "* 00 20 * * *"
+        urls:
+            - http://localhost:5556/scenes/movietime/enable
+    -   cron: "* 00 2 * * *"
+        urls:
+            - http://localhost:5556/scenes/movietime/disable

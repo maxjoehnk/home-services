@@ -1,0 +1,4 @@
+port: 5555
+bridge:
+    ip: <bridge ip>
+    username: <bridge username>
