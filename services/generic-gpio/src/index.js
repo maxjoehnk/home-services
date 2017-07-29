@@ -4,7 +4,7 @@ const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
 const wpi = require('wiring-pi');
 const { createServer } = require('restify');
-const fetch = require('node-fetch');
+const execute = require('../../../shared/url-executor');
 const tinycolor2 = require('tinycolor2');
 const debounce = require('lodash.debounce');
 const logger = require('./logger');
@@ -65,12 +65,8 @@ function setupInterrupts({ interrupts }) {
         }
         wpi.wiringPiISR(interrupt.pin, edge, debounce(() => {
             logger.debug(`Interrupt for Pin ${interrupt.pin} triggered`);
-            interrupt.urls.forEach(url => {
-                logger.debug(`Fetching ${url}`);
-                fetch(url)
-                    .then(res => logger.debug(`GET: ${url} - ${res.status} ${res.statusText}`))
-                    .catch(err => logger.error(err));
-            });
+            execute(interrupt.urls)
+                .catch(err => logger.error(err));
         }, interrupt.debounce || 100));
     });
 }
