@@ -1,14 +1,15 @@
 port: 5557
 devices:
     Living Room:
-        events:
-            play:
-                filter:
-                    - Netflix
-                urls:
-                    - http://localhost:5556/scenes/movietime/states/playing/activate
-            pause:
-                filter:
-                    - Netflix
-                urls:
-                    - http://localhost:5556/scenes/movietime/states/paused/activate
+        -   events:
+                - play
+            applications:
+                - Netflix
+            urls:
+                - http://localhost:5556/scenes/movietime/states/playing/activate
+        -   events:
+                - pause
+            applications:
+                - Netflix
+            urls:
+                - http://localhost:5556/scenes/movietime/states/paused/activate
