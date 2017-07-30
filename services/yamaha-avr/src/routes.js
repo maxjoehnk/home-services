@@ -1,115 +1,103 @@
-const logger = require('./logger');
+const wrapper = require('./api');
+const { NotFoundError, InvalidArgumentError } = require('restify-errors');
 
-function powerOff(avr) {
-    return async function(req, res, next) {
-        logger.debug('Turning off AVR');
-        try {
-            await avr.powerOff();
-        }catch (err) {
-            return next(err);
+module.exports = (server, avr) => {
+    const api = wrapper(avr);
+
+    const checkZone = async(req, res, next) => {
+        const zones = await api.getZones();
+        if (zones.includes(req.params.zone)) {
+            return next();
         }
-        res.send(204);
+        return next(new NotFoundError('Invalid Zone'));
     };
-}
 
-function powerOn(avr) {
-    return async function(req, res, next) {
-        logger.debug('Turning on AVR');
-        try {
-            await avr.powerOn();
-        }catch (err) {
-            return next(err);
+    const checkBoolean = param => (req, res, next) => {
+        const value = req.params[param];
+        if (value === 'true' || value === true) {
+            req.params[param] = true;
+        }else if (value === 'false' || value === false) {
+            req.params[param] = false;
+        }else {
+            return next(new InvalidArgumentError(`${value} is not of type Boolean`));
         }
-        res.send(204);
+        return next();
     };
-}
 
-function powerToggle(avr) {
-    return async function(req, res, next) {
-        let power;
-        try {
-            power = await avr.isOn();
-        }catch (err) {
-            return next(err);
-        }
-        logger.debug(`Turning ${power ? 'off' : 'on'} AVR`);
-        try {
-            await power ? avr.powerOff() : avr.powerOn();
-        }catch (err) {
-            return next(err);
-        }
-        res.send(204);
+    const ok = (req, res, next) => {
+        res.header('Content-Type', 'application/json');
+        res.sendRaw(200, JSON.stringify(req.result));
+        return next();
     };
-}
 
-function mute(avr) {
-    return async function(req, res, next) {
-        logger.debug('Muting AVR');
-        try {
-            await avr.muteOn();
-        }catch (err) {
-            return next(err);
-        }
-        res.send(204);
-    };
-}
+    server.get('/zones', async(req, res, next) => {
+        req.result = await api.getZones();
+        return next();
+    }, ok);
 
-function unmute(avr) {
-    return async function(req, res, next) {
-        logger.debug('Unmuting AVR');
-        try {
-            await avr.muteOff();
-        }catch (err) {
-            return next(err);
-        }
-        res.send(204);
-    };
-}
+    // Power Endpoints
+    server.get('/main/power', async(req, res, next) => {
+        req.result = await api.getPower();
+        return next();
+    }, ok);
+    server.post('/main/power/toggle', async(req, res, next) => {
+        req.result = await api.togglePower();
+        return next();
+    }, ok);
+    server.post('/main/power/:value', checkBoolean('value'), async(req, res) => {
+        await api.setPower(req.params.value);
+        return res.json(204);
+    });
+    server.get('/zones/:zone/power', checkZone, async(req, res, next) => {
+        req.result = await api.getPower(req.params.zone);
+        return next();
+    }, ok);
+    server.post('/zones/:zone/power/toggle', checkZone, async(req, res, next) => {
+        req.result = await api.togglePower(req.params.zone);
+        return next();
+    }, ok);
+    server.post('/zones/:zone/power/:value', checkBoolean('value'), checkZone, async(req, res) => {
+        await api.setPower(req.params.value, req.params.zone);
+        return res.json(204);
+    });
 
-function getVolume(avr) {
-    return async function(req, res, next) {
-        logger.debug('Requesting Volume');
-        try {
-            const volume = await avr.getVolume();
-            logger.trace(volume);
-            res.json(200, { volume });
-        }catch (err) {
-            return next(err);
-        }
-    };
-}
+    // Volume Endpoints
+    server.get('/main/volume', async(req, res, next) => {
+        req.result = await api.getVolume();
+        return next();
+    }, ok);
+    server.post('/main/volume/:value', async(req, res) => {
+        await api.setVolume(req.params.value);
+        return res.json(204);
+    });
+    server.get('/zones/:zone/volume', checkZone, async(req, res, next) => {
+        req.result = await api.getVolume(req.params.zone);
+        return next();
+    }, ok);
+    server.post('/zones/:zone/volume/:value', checkZone, async(req, res) => {
+        await api.setVolume(req.params.value, req.params.zone);
+        return res.json(204);
+    });
 
-function setVolume(avr) {
-    return async function(req, res, next) {
-        logger.debug(`Setting Volume to ${req.params.value}`);
-        try {
-            await avr.setVolumeTo(req.params.value);
-        }catch (err) {
-            return next(err);
-        }
-        res.send(204);
-    };
-}
-
-function getBasicInfo(avr) {
-    return async function(req, res, next) {
-        logger.debug('Requesting Basic Info');
-        try {
-            const info = await avr.getBasicInfo();
-            res.send(200, info);
-        }catch (err) {
-            return next(err);
-        }
-    };
-}
-
-module.exports = {
-    powerOff,
-    powerOn,
-    powerToggle,
-    mute,
-    unmute,
-    getVolume,
-    setVolume,
-    getBasicInfo
+    // Input Endpoints
+    server.get('/inputs', async(req, res, next) => {
+        req.result = await api.getInputs();
+        return next();
+    }, ok);
+    server.get('/main/input', async(req, res, next) => {
+        req.result = await api.getInput();
+        return next();
+    }, ok);
+    server.post('/main/input/:value', async(req, res) => {
+        await api.setInput(req.params.value);
+        return res.json(204);
+    });
+    server.get('/zones/:zone/input', checkZone, async(req, res, next) => {
+        req.result = await api.getInput(req.params.zone);
+        return next();
+    }, ok);
+    server.post('/zones/:zone/input/:value', checkZone, async(req, res) => {
+        await api.setInput(req.params.value, req.params.zone);
+        return res.json(204);
+    });
 };

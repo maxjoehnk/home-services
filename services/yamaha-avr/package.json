@@ -24,7 +24,9 @@
         "bunyan": "^1.8.10",
         "bunyan-format": "^0.2.1",
         "js-yaml": "^3.9.0",
+        "lodash.get": "^4.4.2",
         "restify": "^5.0.1",
+        "restify-errors": "^4.3.0",
         "yamaha-nodejs": "^0.7.8",
         "yargs": "^8.0.2"
     },
