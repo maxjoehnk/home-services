@@ -1,0 +1,287 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: 'Yamaha AVR Homeservice'
+  description: 'Provides a simple to use HTTP Api for Yamaha AVRs'
+tags:
+  - name: main
+    description: Main Zone
+  - name: zones
+    description: Get Zone Information
+  - name: power
+    description: Control the Power State
+  - name: volume
+    description: Volume Control
+  - name: input
+    description: Input Control
+parameters:
+  zone:
+    name: zone
+    in: path
+    required: true
+    type: string
+    description: The zone to use
+  volume:
+    name: value
+    in: path
+    required: true
+    type: number
+    description: The Value to set the Volume to
+  power:
+    name: value
+    in: path
+    required: true
+    type: boolean
+    description: The value to set the power to
+definitions:
+  Input:
+    type: object
+    properties:
+      display:
+        type: string
+      name:
+        type: string
+  Sound:
+    type: object
+    properties:
+      bass:
+        type: number
+      treble:
+        type: number
+      extraBass:
+        type: boolean
+      adaptiveDRC:
+        type: boolean
+      dialogLevel:
+        type: number
+      dialogLift:
+        type: boolean
+      subwooferTrim:
+        type: number
+      pureDirect:
+        type: boolean
+responses:
+  power:
+    description: OK
+    schema:
+      type: boolean
+  volume:
+    description: OK
+    schema:
+      type: number
+      example: -300
+  input:
+    description: OK
+    schema:
+      type: string
+  mute:
+    description: OK
+    schema:
+      type: boolean
+  zone_not_found:
+    description: Not Found
+paths:
+  /inputs:
+    get:
+      tags:
+      - input
+      description: Get a list of available Inputs
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Input'
+            example:
+            - display: Wii
+              name: AV_1
+            - display: Chromecast
+              name: HDMI_1
+            - display: ''
+              name: HDMI_2
+            - display: USB
+              name: USB
+            - display: V-AUX
+              name: V_AUX
+  /main/power:
+    get:
+      tags:
+      - main
+      - power
+      description: Power of Main Zone
+      responses:
+        200:
+          $ref: '#/responses/power'
+  /main/power/toggle:
+    post:
+      tags:
+      - main
+      - power
+      responses:
+        200:
+          $ref: '#/responses/power'
+  /main/power/{value}:
+    post:
+      tags:
+      - main
+      - power
+      parameters:
+      - $ref: "#/parameters/power"
+      responses:
+        200:
+          description: Ok
+  /main/volume:
+    get:
+      tags:
+      - main
+      - volume
+      description: Volume of Main Zone
+      responses:
+        200:
+          $ref: '#/responses/power'
+  /main/volume/{value}:
+    post:
+      tags:
+      - main
+      - volume
+      parameters:
+      - $ref: "#/parameters/volume"
+      responses:
+        200:
+          description: OK
+  /main/input:
+    get:
+      tags:
+      - main
+      - input
+      description: Get the current Input
+      responses:
+        200:
+          $ref: '#/responses/input'
+  /main/input/{input}:
+    post:
+      tags:
+      - main
+      - input
+      parameters:
+      - name: input
+        in: path
+        type: string
+        description: The Input
+        required: true
+      description: Set the current Input
+      responses:
+        200:
+          description: Ok
+  /zones:
+    get:
+      tags:
+      - zones
+      description: Return a list of Zones
+      responses:
+        200:
+          description: List of available Zones
+          schema:
+            type: array
+            items:
+              type: string
+            minLength: 1
+            example:
+            - "Main_Zone"
+  /zones/{zone}/power:
+    get:
+      tags:
+      - zones
+      - power
+      description: Power of Zone
+      parameters:
+      - $ref: "#/parameters/zone"
+      responses:
+        200:
+          $ref: "#/responses/power"
+        404:
+          $ref: "#/responses/zone_not_found"
+  /zones/{zone}/power/toggle:
+    post:
+      tags:
+      - zones
+      - power
+      description: Toggle Zone Power
+      parameters:
+      - $ref: '#/parameters/zone'
+      responses:
+        200:
+          $ref: '#/responses/power'
+        404:
+          $ref: '#/responses/zone_not_found'
+  /zones/{zone}/power/{value}:
+    post:
+      tags:
+      - zones
+      - power
+      parameters:
+      - $ref: "#/parameters/zone"
+      - $ref: "#/parameters/power"
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/responses/zone_not_found"
+  /zones/{zone}/volume:
+    get:
+      tags:
+      - zones
+      - volume
+      parameters:
+      - $ref: "#/parameters/zone"
+      description: Get the volume
+      responses:
+        200:
+          $ref: "#/responses/volume"
+        404:
+          $ref: "#/responses/zone_not_found"
+  /zones/{zone}/volume/{value}:
+    post:
+      tags:
+      - zones
+      - volume
+      parameters:
+      - $ref: "#/parameters/zone"
+      - $ref: "#/parameters/volume"
+      responses:
+        200:
+          description: OK
+        404:
+          $ref: "#/responses/zone_not_found"
+  /zones/{zone}/input:
+    get:
+      tags:
+      - zones
+      - input
+      parameters:
+      - $ref: '#/parameters/zone'
+      description: Get the current Input
+      responses:
+        200:
+          $ref: '#/responses/input'
+        404:
+          $ref: '#/responses/zone_not_found'
+  /zones/{zone}/input/{input}:
+    post:
+      tags:
+      - zones
+      - input
+      parameters:
+      - $ref: '#/parameters/zone'
+      - name: input
+        in: path
+        type: string
+        description: The Input
+        required: true
+      description: Set the current Input
+      responses:
+        200:
+          description: Ok
+        404:
+          $ref: '#/responses/zone_not_found'
