@@ -4,3 +4,4 @@ node_js:
 install: .travis/install.sh
 script:
     - .travis/lint.sh
+    - .travis/test.sh
