@@ -4,7 +4,7 @@ result=0
 for library in shared/*/ ; do
     echo "Testing library $(basename $library)..."
     cd "$root/$library"
-    npm test
+    npm test --silent
     if [ $? != 0 ]; then
         result=1
     fi
@@ -15,7 +15,7 @@ cd $root
 for service in services/*/ ; do
     echo "Testing service $(basename $service)..."
     cd "$root/$service"
-    npm test
+    npm test --silent
     if [ $? != 0 ]; then
         result=1
     fi
