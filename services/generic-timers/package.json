@@ -6,7 +6,8 @@
     "bin": "bin/timers-service",
     "scripts": {
         "start": "bin/timers-service",
-        "lint": "eslint bin/** src/**"
+        "lint": "eslint bin/** src/**",
+        "test": "echo \"Error: no test specified\" && exit 0"
     },
     "repository": {
         "type": "git",
