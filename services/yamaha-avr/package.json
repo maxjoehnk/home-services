@@ -8,7 +8,8 @@
     },
     "scripts": {
         "start": "bin/yamaha-service",
-        "lint": "eslint src/** bin/**"
+        "lint": "eslint src/** bin/** test/**",
+        "test": "mocha"
     },
     "repository": {
         "type": "git",
@@ -31,6 +32,11 @@
         "yargs": "^8.0.2"
     },
     "devDependencies": {
-        "eslint": "^4.3.0"
+        "chai": "^4.1.0",
+        "chai-as-promised": "^7.1.1",
+        "eslint": "^4.3.0",
+        "mocha": "^3.5.0",
+        "sinon": "^2.4.1",
+        "sinon-chai": "^2.12.0"
     }
 }
