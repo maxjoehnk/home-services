@@ -4,9 +4,9 @@ module.exports = avr => {
     const getVolume = async zone => await avr.getVolume(zone);
     const setVolume = async(volume, zone) => await avr.setVolume(volume, zone);
     const getPower = async zone => await avr.isOn(zone);
-    const setPower = async(power, zone) => power ?
+    const setPower = async(power, zone) => (power ?
         await avr.powerOn(zone) :
-        await avr.powerOff(zone);
+        await avr.powerOff(zone));
     const togglePower = async zone => {
         const power = !await getPower(zone);
         await setPower(power, zone);
@@ -23,9 +23,9 @@ module.exports = avr => {
         return result;
     };
     const getInput = async zone => await avr.getCurrentInput(zone);
-    const setInput = async(input, zone) => zone ?
+    const setInput = async(input, zone) => (zone ?
         await avr.setInputTo(input) :
-        await avr.setMainInputTo(input);
+        await avr.setMainInputTo(input));
     const getZones = async() => await avr.getAvailableZones();
 
     return {
