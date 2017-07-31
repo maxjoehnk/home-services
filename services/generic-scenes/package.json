@@ -6,7 +6,8 @@
     "bin": "bin/scenes-service",
     "scripts": {
         "start": "bin/scenes-service",
-        "lint": "eslint src/** bin/**"
+        "lint": "eslint src/** bin/**",
+        "test": "echo \"Error: no test specified\" && exit 0"
     },
     "repository": {
         "type": "git",
