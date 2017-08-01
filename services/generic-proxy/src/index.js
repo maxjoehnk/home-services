@@ -11,7 +11,7 @@ const readFile = promisify(fs.readFile);
 
 /*::
 type Route = {
-    url: stirng
+    url: string
 };
 
 type Routes = {
