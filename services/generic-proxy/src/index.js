@@ -5,6 +5,9 @@ const { resolve } = require('path');
 // $FlowFixMe
 const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
+const Koa = require('koa');
+const minimatch = require('minimatch');
+const fetch = require('node-fetch');
 const logger = require('./logger');
 
 const readFile = promisify(fs.readFile);
@@ -36,14 +39,31 @@ async function start(args /* :any */) {
         const options = defaultOptions(args);
         logger.level(options.logLevel);
         const config = await loadConfig(options.config);
-        setupRoutes(config.routes);
+        const server = new Koa();
+        server.use(setupRoutes(config.routes));
+        server.on('error', err => {
+            logger.error(err);
+        });
+        server.listen(config.port);
     }catch (err) {
         logger.fatal(err);
     }
 }
 
-function setupRoutes(routes /* :Routes */) /* :void */ {
-
+function setupRoutes(routes /* :Routes */) {
+    return async(ctx) /* :Promise<void> */ => {
+        const match /* :string | void */ = Object.getOwnPropertyNames(routes)
+            .sort((a, b) => b.length - a.length)
+            .find(route => minimatch(ctx.path, route));
+        if (match === undefined) {
+            ctx.status = 404;
+            return;
+        }
+        const route = routes[match];
+        const result = await fetch(route.url);
+        logger.trace(result);
+        ctx.status = 200;
+    };
 }
 
 function defaultOptions(options /* :Options */) /* :Options*/ {
