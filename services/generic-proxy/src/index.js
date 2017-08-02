@@ -44,7 +44,9 @@ async function start(args /* :any */) {
         server.on('error', err => {
             logger.error(err);
         });
-        server.listen(config.port);
+        server.listen(config.port, () => {
+            logger.info(`Listening on port ${config.port}`);
+        });
     }catch (err) {
         logger.fatal(err);
     }
