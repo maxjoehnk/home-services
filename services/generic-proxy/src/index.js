@@ -63,8 +63,9 @@ function setupRoutes(routes /* :Routes */) {
         }
         const route = routes[match];
         const result = await fetch(route.url);
-        logger.trace(result);
-        ctx.status = 200;
+        ctx.set(result.headers.raw());
+        ctx.status = result.status;
+        ctx.body = result.body;
     };
 }
 
