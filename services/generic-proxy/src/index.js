@@ -53,7 +53,7 @@ async function start(args /* :any */) {
 }
 
 function setupRoutes(routes /* :Routes */) {
-    return async(ctx) /* :Promise<void> */ => {
+    return async ctx /* :Promise<void> */ => {
         const match /* :string | void */ = Object.getOwnPropertyNames(routes)
             .sort((a, b) => b.length - a.length)
             .find(route => minimatch(ctx.path, route));
