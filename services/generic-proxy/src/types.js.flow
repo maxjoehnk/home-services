@@ -1,0 +1,21 @@
+/*::
+export type Config = {
+    port: number,
+    routes: Routes
+};
+
+export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
+
+export type Options = {
+    config: string,
+    logLevel: LogLevel
+};
+
+export type Route = {
+    url: string
+};
+
+export type Routes = {
+    [string]: Route
+};
+*/
