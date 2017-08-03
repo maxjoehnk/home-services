@@ -1,12 +1,15 @@
 const { expect, use } = require('chai');
-const { stub, spy } = require('sinon');
+const { stub } = require('sinon');
+const { enable, disable, registerMock, registerAllowable } = require('mockery');
 const asPromised = require('chai-as-promised');
 const sinonChai = require('sinon-chai');
 const { resolve } = require('path');
-const config = require('../src/config');
 
 use(asPromised);
 use(sinonChai);
+
+const requirePath = '../src/config';
+const config = require(requirePath);
 
 describe('config', function() {
     it('should be an object', function() {
@@ -88,12 +91,75 @@ describe('config', function() {
     });
 
     describe('loadConfig', function() {
-        it('should be defined', function() {
-            expect(config.loadConfig).to.be.an.instanceof(Function);
+        let fsMock;
+        let utilMock;
+        let yamlMock;
+
+        let instance;
+
+        before(function() {
+            enable({
+                useCleanCache: true
+            });
+            fsMock = {
+                readFile: stub()
+            };
+            utilMock = {
+                promisify: (cb) => cb
+            };
+            yamlMock = {
+                safeLoad: stub()
+            };
+            registerMock('fs', fsMock);
+            registerMock('util', utilMock);
+            registerMock('js-yaml', yamlMock);
+            registerAllowable('path');
+            registerAllowable(requirePath);
+
+            instance = require(requirePath);
+
+            fsMock.readFile.returns(new Promise(() => {}));
         });
 
-        xit('it should read the file with utf8 encoding');
-        xit('it should parse the file as yaml');
-        xit('it should apply the default options');
+        after(function() {
+            disable();
+        });
+
+        it('should be defined', function() {
+            expect(instance.loadConfig).to.be.an.instanceof(Function);
+        });
+
+        it('should return a promise', function() {
+            const result = instance.loadConfig('');
+            expect(result).to.be.an.instanceof(Promise);
+        });
+
+        it('should read the file with utf8 encoding', function() {
+            const file = '/config.yml';
+            instance.loadConfig(file);
+            expect(fsMock.readFile).to.have.been.calledWith(file, 'utf8');
+        });
+
+        it('should parse the file as yaml', async function() {
+            const file = 'Test';
+            fsMock.readFile.resolves(file);
+            await instance.loadConfig();
+            expect(yamlMock.safeLoad).to.have.been.calledWith(file);
+        });
+
+        it('should apply the default options', async function() {
+            const config = {
+                option: 'value'
+            };
+            const result = {
+                option: 'value',
+                port: 8080,
+                routes: {}
+            };
+            fsMock.readFile.resolves();
+            yamlMock.safeLoad.returns(config);
+            const response = await instance.loadConfig();
+            expect(response).to.deep.equal(result);
+        });
     });
 });
