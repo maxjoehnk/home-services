@@ -15,6 +15,8 @@ This also allows a distributed installation of services, e.g. on multiple Raspbe
 - [HDMI-CEC](https://github.com/maxjoehnk/home-services/tree/master/services/generic-hdmi-cec)
 - [Scenes](https://github.com/maxjoehnk/home-services/tree/master/services/generic-scenes)
 - [Timers](https://github.com/maxjoehnk/home-services/tree/master/services/generic-timers)
+- Events ([#4](https://github.com/maxjoehnk/home-services/pull/4))
+- Proxy ([#3](https://github.com/maxjoehnk/home-services/pull/3))
 
 ## Google
 - [Cast](https://github.com/maxjoehnk/home-services/tree/master/services/google-cast)
@@ -27,3 +29,6 @@ This also allows a distributed installation of services, e.g. on multiple Raspbe
 
 ## Yamaha
 - [AVR](https://github.com/maxjoehnk/home-services/tree/master/services/yamaha-avr)
+
+## Osram
+- Lightify ([#2](https://github.com/maxjoehnk/home-services/issues/2))
