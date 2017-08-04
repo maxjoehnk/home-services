@@ -1,0 +1,41 @@
+[md-card-avatar] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+        font-size: 24px;
+    }
+}
+
+.forecast {
+    display: flex;
+    justify-content: space-around;
+
+    i {
+        font-size: 16px;
+    }
+}
+
+.forecast-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.forecast-date {
+    color: #555;
+    font-weight: 300;
+    padding-bottom: 8px;
+}
+
+.forecast-max-temperature {
+    padding-top: 8px;
+    color: #111;
+}
+
+.forecast-min-temperature {
+    padding-top: 8px;
+    color: #555;
+}
