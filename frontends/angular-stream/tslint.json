@@ -115,16 +115,10 @@
       "check-type"
     ],
     "directive-selector": [
-      true,
-      "attribute",
-      "stream",
-      "camelCase"
+      false
     ],
     "component-selector": [
-      true,
-      "element",
-      "stream",
-      "kebab-case"
+      false
     ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
