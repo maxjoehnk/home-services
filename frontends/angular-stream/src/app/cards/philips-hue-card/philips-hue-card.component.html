@@ -1,0 +1,13 @@
+<md-card>
+    <md-card-header>
+        <div md-card-avatar [class.active]="light.state.power">
+            <i class="mdi"
+               [class.mdi-lightbulb-outline]="!light.state.power"
+               [class.mdi-lightbulb-on]="light.state.power"></i>
+        </div>
+        <md-card-title>{{light.name}}</md-card-title>
+        <md-card-subtitle>Philips Hue</md-card-subtitle>
+    </md-card-header>
+    <md-card-content>
+    </md-card-content>
+</md-card>

@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { WeatherCardComponent } from './cards/weather-card/weather-card.component';
 import { GoogleCastCardComponent } from './cards/google-cast-card/google-cast-card.component';
 import { CelsiusPipe } from './pipes';
+import { PhilipsHueCardComponent } from './cards/philips-hue-card/philips-hue-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WeatherCardComponent,
     GoogleCastCardComponent,
+    PhilipsHueCardComponent,
     CelsiusPipe
   ],
   imports: [

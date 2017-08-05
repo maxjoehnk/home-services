@@ -145,6 +145,75 @@ export class AppComponent {
                 }
             },
             style: {}
+        },
+        {
+            type: 'philips-hue',
+            payload: {
+                id: 1,
+                state: {
+                    power: false,
+                    brightness: 254,
+                    hue: 39392,
+                    saturation: 13,
+                    effect: 'none',
+                    xy: [
+                        0.3691,
+                        0.3719
+                    ],
+                    ct: 230,
+                    alert: 'select',
+                    colormode: 'xy',
+                    reachable: true
+                },
+                type: 'Extended color light',
+                name: 'Mitte'
+            }
+        },
+        {
+            type: 'philips-hue',
+            payload: {
+                id: 2,
+                state: {
+                    power: false,
+                    brightness: 254,
+                    hue: 39392,
+                    saturation: 13,
+                    effect: 'none',
+                    xy: [
+                        0.3691,
+                        0.3719
+                    ],
+                    ct: 230,
+                    alert: 'select',
+                    colormode: 'xy',
+                    reachable: true
+                },
+                type: 'Extended color light',
+                name: 'Rechts'
+            }
+        },
+        {
+            type: 'philips-hue',
+            payload: {
+                id: 3,
+                state: {
+                    power: true,
+                    brightness: 254,
+                    hue: 39392,
+                    saturation: 13,
+                    effect: 'none',
+                    xy: [
+                        0.3691,
+                        0.3719
+                    ],
+                    ct: 230,
+                    alert: 'select',
+                    colormode: 'xy',
+                    reachable: true
+                },
+                type: 'Extended color light',
+                name: 'Links'
+            }
         }
     ];
 }

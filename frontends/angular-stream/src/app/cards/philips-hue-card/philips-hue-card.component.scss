@@ -1,0 +1,15 @@
+[md-card-avatar] {
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.active {
+        background: #ffeb3b;
+    }
+
+    i {
+        color: #fff;
+        font-size: 24px;
+    }
+}
