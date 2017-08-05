@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdCardModule } from '@angular/material';
+import { MdCardModule, MdButtonModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { WeatherCardComponent } from './cards/weather-card/weather-card.component';
@@ -18,7 +19,9 @@ import { CelsiusPipe } from './pipes';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MdCardModule
+    FlexLayoutModule,
+    MdCardModule,
+    MdButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

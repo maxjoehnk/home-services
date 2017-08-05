@@ -3,8 +3,13 @@
         <div md-card-avatar>
             <i class="mdi mdi-cast"></i>
         </div>
-        <md-card-title>You Me Her</md-card-title>
-        <md-card-subtitle>Max Room</md-card-subtitle>
+        <md-card-title>{{cast.application.title}}</md-card-title>
+        <md-card-subtitle>{{cast.name}}</md-card-subtitle>
     </md-card-header>
-    <img md-card-image src="https://occ-0-768-769.1.nflxso.net/art/fb819/24fd7fb1a1f64dff7e755054a1e49e11684fb819.jpg" />
+    <img md-card-image [src]="cast.application?.image" *ngIf="cast.application?.image" />
+    <md-card-actions fxLayout>
+        <button md-button primary>Stop Casting</button>
+        <span fxFlex></span>
+        <button md-icon-button><i class="mdi mdi-pause"></i></button>
+    </md-card-actions>
 </md-card>

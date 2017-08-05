@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ICard } from './cards/card.interface';
 
 @Component({
     selector: 'app-root',
@@ -6,13 +7,12 @@ import { Component } from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    cards = [
+    cards: ICard[] = [
         {
             type: 'weather',
             payload: {
                 current: {
-                    id: 803,
-                    main: 'Clouds',
+                    icon: 'mdi-weather-cloudy',
                     description: 'Überwiegend bewölkt',
                     temperature: {
                         min: 21,
@@ -31,8 +31,7 @@ export class AppComponent {
                     {
                         date: '2017-08-04T11:00:00.000Z',
                         weather: {
-                            id: 500,
-                            main: 'Rain',
+                            icon: 'mdi-weather-pouring',
                             description: 'Leichter Regen',
                             temperature: {
                                 min: 15.7,
@@ -50,8 +49,7 @@ export class AppComponent {
                     {
                         date: '2017-08-05T11:00:00.000Z',
                         weather: {
-                            id: 500,
-                            main: 'Rain',
+                            icon: 'mdi-weather-pouring',
                             description: 'Leichter Regen',
                             temperature: {
                                 min: 15.7,
@@ -69,8 +67,7 @@ export class AppComponent {
                     {
                         date: '2017-08-06T11:00:00.000Z',
                         weather: {
-                            id: 802,
-                            main: 'Clouds',
+                            icon: 'mdi-weather-cloudy',
                             description: 'Überwiegend bewölkt',
                             temperature: {
                                 min: 11.55,
@@ -88,8 +85,7 @@ export class AppComponent {
                     {
                         date: '2017-08-07T11:00:00.000Z',
                         weather: {
-                            id: 800,
-                            main: 'Clear',
+                            icon: 'mdi-weather-sunny',
                             description: 'Klarer Himmel',
                             temperature: {
                                 min: 13.43,
@@ -107,8 +103,7 @@ export class AppComponent {
                     {
                         date: '2017-08-08T11:00:00.000Z',
                         weather: {
-                            id: 501,
-                            main: 'Rain',
+                            icon: 'mdi-weather-pouring',
                             description: 'Mäßiger Regen',
                             temperature: {
                                 min: 18.27,
@@ -130,7 +125,24 @@ export class AppComponent {
         {
             type: 'google-cast',
             payload: {
-
+                name: 'Max Room',
+                application: {
+                    title: 'You Me Her',
+                    name: 'Netflix',
+                    image: 'https://occ-0-768-769.1.nflxso.net/art/fb819/24fd7fb1a1f64dff7e755054a1e49e11684fb819.jpg'
+                }
+            },
+            style: {}
+        },
+        {
+            type: 'google-cast',
+            payload: {
+                name: 'Living Room',
+                application: {
+                    title: 'How I Met Your Mother',
+                    name: 'Netflix',
+                    image: 'https://occ-0-781-783.1.nflxso.net/art/75589/9ffd571632c0fd12cbc01b8118b00c87e9f75589.webp'
+                }
             },
             style: {}
         }

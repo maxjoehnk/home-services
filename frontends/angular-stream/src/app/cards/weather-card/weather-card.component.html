@@ -1,7 +1,7 @@
 <md-card>
     <md-card-header>
         <div md-card-avatar>
-            <i [ngClass]="mapCodeToIcon(weather.current.id)"></i>
+            <i class="mdi" [ngClass]="weather.current.icon"></i>
         </div>
         <md-card-title>{{weather.current.temperature.current | celsius}}</md-card-title>
         <md-card-subtitle>{{weather.current.description}}</md-card-subtitle>
@@ -10,7 +10,7 @@
         <div class="forecast-day"
              *ngFor="let day of weather.forecast">
             <span class="forecast-date">{{day.date | date:'EEE' | uppercase}}</span>
-            <i [ngClass]="mapCodeToIcon(day.weather.id)"></i>
+            <i class="mdi" [ngClass]="day.weather.icon"></i>
             <span class="forecast-max-temperature">{{day.weather.temperature.max | celsius:true}}</span>
             <span class="forecast-min-temperature">{{day.weather.temperature.min | celsius:true}}</span>
         </div>
