@@ -21,4 +21,15 @@ for service in services/*/ ; do
     fi
 done
 
+cd $root
+
+for frontend in frontends/*/ ; do
+    echo "Linting frontend $(basename $frontend)..."
+    cd "$root/$frontend"
+    npm run lint --silent
+    if [ $? != 0 ]; then
+        result=1
+    fi
+done
+
 exit $result
