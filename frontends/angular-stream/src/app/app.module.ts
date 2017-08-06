@@ -9,6 +9,12 @@ import {
     MdChipsModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import reducers from './store';
+import effects from './store/effects';
 
 import { AppComponent } from './app.component';
 import { WeatherCardComponent } from './cards/weather-card/weather-card.component';
@@ -30,6 +36,11 @@ import { YamahaAvrCardComponent } from './cards/yamaha-avr-card/yamaha-avr-card.
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25
+    }),
     MdCardModule,
     MdButtonModule,
     MdSelectModule,

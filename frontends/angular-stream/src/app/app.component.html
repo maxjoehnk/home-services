@@ -10,7 +10,7 @@
     <md-list>
         <h3 md-subheader>Stream</h3>
     </md-list>
-    <div *ngFor="let card of cards" class="card">
+    <div *ngFor="let card of (stream | async)?.stream" class="card">
         <google-cast-card [card]="card" *ngIf="card.type === 'google-cast'"></google-cast-card>
         <weather-card [card]="card" *ngIf="card.type === 'weather'"></weather-card>
         <philips-hue-card [card]="card" *ngIf="card.type === 'philips-hue'"></philips-hue-card>
