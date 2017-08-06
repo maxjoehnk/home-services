@@ -22,6 +22,7 @@ import { GoogleCastCardComponent } from './cards/google-cast-card/google-cast-ca
 import { CelsiusPipe } from './pipes';
 import { PhilipsHueCardComponent } from './cards/philips-hue-card/philips-hue-card.component';
 import { YamahaAvrCardComponent } from './cards/yamaha-avr-card/yamaha-avr-card.component';
+import { CardsComponent } from './cards/cards.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { YamahaAvrCardComponent } from './cards/yamaha-avr-card/yamaha-avr-card.
     GoogleCastCardComponent,
     PhilipsHueCardComponent,
     CelsiusPipe,
-    YamahaAvrCardComponent
+    YamahaAvrCardComponent,
+    CardsComponent
   ],
   imports: [
     BrowserModule,

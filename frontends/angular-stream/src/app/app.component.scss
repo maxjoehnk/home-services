@@ -2,7 +2,7 @@ $card: 400px;
 $margin: 10px;
 $card-width: $card + $margin + $margin;
 
-.chips {
+.stream {
     @media screen and (max-width: $card-width) {
         max-width: $card-width;
         width: 100%;
@@ -28,33 +28,5 @@ $card-width: $card + $margin + $margin;
         md-chip {
             font-family: Roboto, "Helvetica Neue", sans-serif;
         }
-    }
-}
-
-.stream {
-    md-list {
-        @media screen and (max-width: $card-width) {
-            max-width: $card-width;
-            width: 100%;
-        }
-
-        @media screen and (min-width: $card-width) {
-            width: $card-width;
-        }
-
-        @media screen and (min-width: 2 * $card-width) {
-            width: 2 * $card-width;
-        }
-
-        @media screen and (min-width: 3 * $card-width) {
-            width: 3 * $card-width;
-        }
-
-        margin-bottom: -5px;
-    }
-
-    .card {
-        width: $card;
-        margin: $margin;
     }
 }

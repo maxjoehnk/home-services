@@ -1,0 +1,8 @@
+<div class="cards" fxLayout fxLayoutWrap>
+    <div *ngFor="let card of cards" class="card">
+        <google-cast-card [card]="card" *ngIf="card.type === 'google-cast'"></google-cast-card>
+        <weather-card [card]="card" *ngIf="card.type === 'weather'"></weather-card>
+        <philips-hue-card [card]="card" *ngIf="card.type === 'philips-hue'"></philips-hue-card>
+        <yamaha-avr-card [card]="card" *ngIf="card.type === 'yamaha-avr'"></yamaha-avr-card>
+    </div>
+</div>
