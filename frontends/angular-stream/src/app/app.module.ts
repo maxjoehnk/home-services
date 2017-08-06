@@ -1,7 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdCardModule, MdButtonModule, MdSelectModule } from '@angular/material';
+import {
+    MdCardModule,
+    MdButtonModule,
+    MdSelectModule,
+    MdListModule,
+    MdChipsModule
+} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
@@ -26,7 +32,9 @@ import { YamahaAvrCardComponent } from './cards/yamaha-avr-card/yamaha-avr-card.
     FlexLayoutModule,
     MdCardModule,
     MdButtonModule,
-    MdSelectModule
+    MdSelectModule,
+    MdListModule,
+    MdChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

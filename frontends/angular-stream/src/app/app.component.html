@@ -1,4 +1,15 @@
+<div class="chips" fxLayout="column">
+    <md-list>
+        <h3 md-subheader>Chips</h3>
+    </md-list>
+    <md-chip-list>
+        <md-chip color="primary" selected="true">{{ 21 | celsius }}</md-chip>
+    </md-chip-list>
+</div>
 <div class="stream" fxLayout fxLayoutWrap fxLayoutAlign="center">
+    <md-list>
+        <h3 md-subheader>Stream</h3>
+    </md-list>
     <div *ngFor="let card of cards" class="card">
         <google-cast-card [card]="card" *ngIf="card.type === 'google-cast'"></google-cast-card>
         <weather-card [card]="card" *ngIf="card.type === 'weather'"></weather-card>
