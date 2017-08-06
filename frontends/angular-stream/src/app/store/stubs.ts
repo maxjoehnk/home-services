@@ -113,7 +113,8 @@ const stream: ICard[] = [
                 }
             ]
         },
-        style: {}
+        style: {},
+        priority: 1
     },
     {
         type: 'google-cast',
@@ -125,7 +126,8 @@ const stream: ICard[] = [
                 image: 'https://occ-0-768-769.1.nflxso.net/art/fb819/24fd7fb1a1f64dff7e755054a1e49e11684fb819.jpg'
             }
         },
-        style: {}
+        style: {},
+        priority: 2
     },
     {
         type: 'google-cast',
@@ -137,7 +139,8 @@ const stream: ICard[] = [
                 image: 'https://occ-0-781-783.1.nflxso.net/art/75589/9ffd571632c0fd12cbc01b8118b00c87e9f75589.webp'
             }
         },
-        style: {}
+        style: {},
+        priority: 100
     },
     {
         type: 'philips-hue',
@@ -160,7 +163,8 @@ const stream: ICard[] = [
             },
             type: 'Extended color light',
             name: 'Mitte'
-        }
+        },
+        priority: 90
     },
     {
         type: 'philips-hue',
@@ -183,7 +187,8 @@ const stream: ICard[] = [
             },
             type: 'Extended color light',
             name: 'Rechts'
-        }
+        },
+        priority: 90
     },
     {
         type: 'philips-hue',
@@ -206,7 +211,8 @@ const stream: ICard[] = [
             },
             type: 'Extended color light',
             name: 'Links'
-        }
+        },
+        priority: 90
     },
     {
         type: 'yamaha-avr',
@@ -221,7 +227,8 @@ const stream: ICard[] = [
             inputs: [
                 'Chrome'
             ]
-        }
+        },
+        priority: 2
     }
 ];
 
