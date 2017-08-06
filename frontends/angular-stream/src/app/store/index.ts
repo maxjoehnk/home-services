@@ -1,16 +1,20 @@
 import stream, { IStreamState } from './reducers/stream';
+import chips, { IChipsState } from './reducers/chips';
 
 interface IState {
     stream: IStreamState;
+    chips: IChipsState;
 }
 
 const reducers = {
-    stream
+    stream,
+    chips
 };
 
 export default reducers;
 
 export {
     IState,
-    IStreamState
+    IStreamState,
+    IChipsState
 };

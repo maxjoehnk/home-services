@@ -1,3 +1,4 @@
 import { StreamEffects } from './stream';
+import { ChipEffects } from './chips';
 
-export default [ StreamEffects ];
+export default [ ChipEffects, StreamEffects ];

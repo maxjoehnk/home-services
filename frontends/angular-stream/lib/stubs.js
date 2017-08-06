@@ -230,6 +230,18 @@ const stream = [
     }
 ];
 
+const chips = [
+    {
+        text: '22',
+        type: 'weather'
+    },
+    {
+        text: 'Test',
+        type: 'text'
+    }
+];
+
 module.exports = {
+    chips,
     stream
 };

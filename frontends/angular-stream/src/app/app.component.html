@@ -3,7 +3,11 @@
         <h3 md-subheader>Chips</h3>
     </md-list>
     <md-chip-list>
-        <md-chip color="primary" selected="true">{{ 21 | celsius }}</md-chip>
+        <md-chip *ngFor="let chip of (chips | async)?.chips"
+                 color="primary"
+                 selected="true">
+            {{ (chip.type === 'weather') ? (chip.text | celsius) : (chip.text) }}
+        </md-chip>
     </md-chip-list>
     <md-list>
         <h3 md-subheader>Stream</h3>
