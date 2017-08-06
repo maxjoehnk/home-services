@@ -15,4 +15,15 @@ router.get('/chips', (req, res) => {
     res.end();
 });
 
+router.get('/configuration', (req, res) => {
+    res.status(200);
+    res.json({
+        chips: true,
+        scenes: true,
+        stream: true,
+        presence: true
+    });
+    res.end();
+});
+
 module.exports = router;
