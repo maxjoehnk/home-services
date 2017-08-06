@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     MdCardModule,
@@ -39,6 +40,7 @@ import { CardsComponent } from './cards/cards.component';
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    HttpModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({

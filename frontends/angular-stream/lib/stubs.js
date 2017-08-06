@@ -1,6 +1,4 @@
-import { ICard } from '../cards/card.interface';
-
-const stream: ICard[] = [
+const stream = [
     {
         type: 'weather',
         payload: {
@@ -232,6 +230,6 @@ const stream: ICard[] = [
     }
 ];
 
-export {
+module.exports = {
     stream
 };
