@@ -1,15 +1,10 @@
 [md-card-avatar] {
-    background: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
 
     i {
-        color: #fff;
+        color: rgba(0, 0, 0, 0.54);
         font-size: 24px;
     }
-}
-
-img[md-card-image] {
-    margin-bottom: -5px;
 }

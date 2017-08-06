@@ -214,6 +214,21 @@ export class AppComponent {
                 type: 'Extended color light',
                 name: 'Links'
             }
+        },
+        {
+            type: 'yamaha-avr',
+            payload: {
+                name: 'Max AV-Receiver',
+                zones: {
+                    Main_Zone: {
+                        input: 'Chrome',
+                        volume: -300
+                    }
+                },
+                inputs: [
+                    'Chrome'
+                ]
+            }
         }
     ];
 }
