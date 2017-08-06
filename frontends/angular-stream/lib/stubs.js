@@ -117,6 +117,7 @@ const stream = [
     {
         type: 'google-cast',
         payload: {
+            id: 'Chromecast-bb8acccd77975aeb8f1effb29fb949f4',
             name: 'Max Room',
             application: {
                 title: 'You Me Her',
@@ -130,6 +131,7 @@ const stream = [
     {
         type: 'google-cast',
         payload: {
+            id: 'Chromecast-608aea15d1c039d363aa93387ba493ca',
             name: 'Living Room',
             application: {
                 title: 'How I Met Your Mother',

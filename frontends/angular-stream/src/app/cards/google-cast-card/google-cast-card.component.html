@@ -8,7 +8,7 @@
     </md-card-header>
     <img md-card-image [src]="cast.application?.image" *ngIf="cast.application?.image" />
     <md-card-actions fxLayout>
-        <button md-button>Stop Casting</button>
+        <button md-button (click)="onStopClick()">Stop Casting</button>
         <span fxFlex></span>
         <button md-icon-button><i class="mdi mdi-pause"></i></button>
     </md-card-actions>
