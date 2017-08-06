@@ -8,5 +8,14 @@
     <md-list>
         <h3 md-subheader>Stream</h3>
     </md-list>
-    <stream-cards [cards]="stream | async" class="cards"></stream-cards>
+    <stream-cards [cards]="(stream | async)?.stream"
+                  class="cards"
+                  *ngIf="(stream | async)?.stream"></stream-cards>
+    <div class="loading"
+         *ngIf="(stream | async)?.pending"
+         fxLayout="column"
+         fxLayoutAlign="center center">
+        <md-spinner></md-spinner>
+        <p>Loading Stream...</p>
+    </div>
 </div>

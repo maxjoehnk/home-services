@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { ICard } from './cards/card.interface';
-import { IState } from './store';
+import { IState, IStreamState } from './store';
 import { LoadCards } from './store/actions/stream';
 
 @Component({
@@ -11,11 +10,10 @@ import { LoadCards } from './store/actions/stream';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    stream: Observable<ICard[]>;
+    stream: Observable<IStreamState>;
 
     constructor(private store: Store<IState>) {
-        this.stream = store.select('stream')
-            .map(state => state.stream);
+        this.stream = store.select('stream');
     }
 
     ngOnInit() {

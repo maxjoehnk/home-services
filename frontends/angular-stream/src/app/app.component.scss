@@ -24,9 +24,17 @@ $card-width: $card + $margin + $margin;
 
     md-chip-list {
         margin-left: 2 * $margin;
+    }
 
-        md-chip {
-            font-family: Roboto, "Helvetica Neue", sans-serif;
+    .loading {
+        align-self: center;
+
+        md-spinner {
+            width: 48px;
+        }
+
+        p {
+            color: rgba(0, 0, 0, 0.7);
         }
     }
 }

@@ -6,7 +6,8 @@ import {
     MdButtonModule,
     MdSelectModule,
     MdListModule,
-    MdChipsModule
+    MdChipsModule,
+    MdProgressSpinnerModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
@@ -47,7 +48,8 @@ import { CardsComponent } from './cards/cards.component';
     MdButtonModule,
     MdSelectModule,
     MdListModule,
-    MdChipsModule
+    MdChipsModule,
+    MdProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
