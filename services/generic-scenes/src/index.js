@@ -27,6 +27,7 @@ async function start(args) {
 }
 
 function setupServer(server) {
+    server.get('/scenes', routes.getAllScenes);
     server.get('/scenes/:scene/active', routes.isSceneActive);
     server.get('/scenes/:scene/activate', routes.activateScene);
     server.get('/scenes/:scene/deactivate', routes.deactivateScene);

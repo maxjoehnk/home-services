@@ -3,6 +3,21 @@ const store = require('./store');
 const selectors = require('./store/selectors');
 const actions = require('./store/actions');
 
+async function getAllScenes(req, res) {
+    logger.trace('routes.getAllScenes');
+    const scenes = selectors.getScenes(store.getState());
+    const response = Object.getOwnPropertyNames(scenes)
+        .map(id => {
+            const { name, states } = scenes[id];
+            return {
+                id,
+                name: name || id,
+                states: states ? Object.getOwnPropertyNames(states) : []
+            };
+        });
+    res.json(200, response);
+}
+
 async function isSceneActive(req, res) {
     logger.trace('routes.isSceneActive');
     const { active } = selectors.getScenes(store.getState())[req.params.scene];
@@ -52,6 +67,7 @@ async function activateState(req, res) {
 }
 
 module.exports = {
+    getAllScenes,
     isSceneActive,
     activateScene,
     deactivateScene,

@@ -6,6 +6,7 @@ Allows to configure scenes
 port: 8080
 scenes:
     movienight:
+        name: Movie Night
         enabled: true
         states:
             playing:
@@ -17,6 +18,8 @@ scenes:
 ```
 
 # Endpoints
+## GET: /scenes
+
 ## GET: /scenes/:scene/active
 
 ## GET: /scenes/:scene/activate
