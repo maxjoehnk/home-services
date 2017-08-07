@@ -15,6 +15,18 @@ router.get('/chips', (req, res) => {
     res.end();
 });
 
+router.get('/scenes', (req, res) => {
+    res.status(200);
+    res.json([
+        {
+            id: 'movienight',
+            name: 'Movie Night',
+            icon: 'theater'
+        }
+    ]);
+    res.end();
+});
+
 router.get('/configuration', (req, res) => {
     res.status(200);
     res.json({
