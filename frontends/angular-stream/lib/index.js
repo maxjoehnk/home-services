@@ -1,6 +1,16 @@
 const express = require('express');
-const app = express();
 const api = require('./api');
 
-app.use('/_api', api);
-app.listen(8080, () => console.log('listening'));
+const { loadConfig, defaultOptions } = require('./config');
+
+async function setup() {
+    const options = defaultOptions();
+    const config = await loadConfig(options.config);
+    const app = express();
+
+    app.use('/_api', api(config));
+    app.listen(8080, () => console.log('listening'));
+}
+
+setup()
+    .catch(err => console.error(err));
