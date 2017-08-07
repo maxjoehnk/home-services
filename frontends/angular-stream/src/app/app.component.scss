@@ -25,16 +25,4 @@ $card-width: $card + $margin + $margin;
     md-chip-list {
         margin-left: 2 * $margin;
     }
-
-    .loading {
-        align-self: center;
-
-        md-spinner {
-            width: 48px;
-        }
-
-        p {
-            color: rgba(0, 0, 0, 0.7);
-        }
-    }
 }

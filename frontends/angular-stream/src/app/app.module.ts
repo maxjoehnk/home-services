@@ -25,6 +25,7 @@ import { CelsiusPipe } from './pipes';
 import { PhilipsHueCardComponent } from './cards/philips-hue-card/philips-hue-card.component';
 import { YamahaAvrCardComponent } from './cards/yamaha-avr-card/yamaha-avr-card.component';
 import { CardsComponent } from './cards/cards.component';
+import { StreamComponent } from './stream/stream.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CardsComponent } from './cards/cards.component';
     PhilipsHueCardComponent,
     CelsiusPipe,
     YamahaAvrCardComponent,
-    CardsComponent
+    CardsComponent,
+    StreamComponent,
   ],
   imports: [
     BrowserModule,

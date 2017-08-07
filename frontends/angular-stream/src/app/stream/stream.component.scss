@@ -1,0 +1,11 @@
+.loading {
+    align-self: center;
+
+    md-spinner {
+        width: 48px;
+    }
+
+    p {
+        color: rgba(0, 0, 0, 0.7);
+    }
+}

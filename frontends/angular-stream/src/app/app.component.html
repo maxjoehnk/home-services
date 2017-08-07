@@ -1,25 +1,13 @@
 <div class="stream" fxLayout="column">
-    <md-list *ngIf="(configuration | async)?.configuration.chips">
+    <md-list *ngIf="(configuration | async)?.chips">
         <h3 md-subheader>Chips</h3>
     </md-list>
-    <md-chip-list *ngIf="(configuration | async)?.configuration.chips">
+    <md-chip-list *ngIf="(configuration | async)?.chips">
         <md-chip *ngFor="let chip of (chips | async)?.chips"
                  color="primary"
                  selected="true">
             {{ (chip.type === 'weather') ? (chip.text | celsius) : (chip.text) }}
         </md-chip>
     </md-chip-list>
-    <md-list *ngIf="(configuration | async)?.configuration.stream">
-        <h3 md-subheader>Stream</h3>
-    </md-list>
-    <stream-cards [cards]="(stream | async)?.stream"
-                  class="cards"
-                  *ngIf="(stream | async)?.stream && (configuration | async)?.configuration.stream"></stream-cards>
-    <div class="loading"
-         *ngIf="(stream | async)?.pending && (configuration | async)?.configuration.stream"
-         fxLayout="column"
-         fxLayoutAlign="center center">
-        <md-spinner></md-spinner>
-        <p>Loading Stream...</p>
-    </div>
+    <app-stream *ngIf="(configuration | async)?.stream"></app-stream>
 </div>
