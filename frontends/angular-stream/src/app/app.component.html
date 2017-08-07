@@ -1,13 +1,4 @@
 <div class="stream" fxLayout="column">
-    <md-list *ngIf="(configuration | async)?.chips">
-        <h3 md-subheader>Chips</h3>
-    </md-list>
-    <md-chip-list *ngIf="(configuration | async)?.chips">
-        <md-chip *ngFor="let chip of (chips | async)?.chips"
-                 color="primary"
-                 selected="true">
-            {{ (chip.type === 'weather') ? (chip.text | celsius) : (chip.text) }}
-        </md-chip>
-    </md-chip-list>
+    <app-chips *ngIf="(configuration | async)?.chips"></app-chips>
     <app-stream *ngIf="(configuration | async)?.stream"></app-stream>
 </div>

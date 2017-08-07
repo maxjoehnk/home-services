@@ -21,8 +21,4 @@ $card-width: $card + $margin + $margin;
     }
 
     margin: 0 auto;
-
-    md-chip-list {
-        margin-left: 2 * $margin;
-    }
 }
