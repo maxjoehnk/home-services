@@ -1,8 +1,10 @@
 const { Router } = require('express');
 const { stream, chips } = require('../stubs');
+const providers = require('../providers');
 
 module.exports = config => {
     const router = new Router();
+    const { fetchScenes } = providers(config);
 
     router.get('/stream', (req, res) => {
         res.status(200);
@@ -16,16 +18,15 @@ module.exports = config => {
         res.end();
     });
 
-    router.get('/scenes', (req, res) => {
-        res.status(200);
-        res.json([
-            {
-                id: 'movienight',
-                name: 'Movie Night',
-                icon: 'theater'
-            }
-        ]);
-        res.end();
+    router.get('/scenes', async(req, res, next) => {
+        try {
+            const scenes = await fetchScenes();
+            res.status(200);
+            res.json(scenes);
+            res.end();
+        }catch (err) {
+            return next(err);
+        }
     });
 
     router.get('/configuration', (req, res) => {
