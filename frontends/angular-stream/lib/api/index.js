@@ -4,7 +4,11 @@ const providers = require('../providers');
 
 module.exports = config => {
     const router = new Router();
-    const { fetchScenes } = providers(config);
+    const {
+        fetchScenes,
+        findProviderByScene,
+        activateScene
+    } = providers(config);
 
     router.get('/stream', (req, res) => {
         res.status(200);
@@ -24,6 +28,21 @@ module.exports = config => {
             res.status(200);
             res.json(scenes);
             res.end();
+        }catch (err) {
+            return next(err);
+        }
+    });
+
+    router.post('/scenes/:scene/activate', async(req, res, next) => {
+        try {
+            const provider = await findProviderByScene(req.params.scene);
+            if (provider !== null) {
+                await activateScene(provider, req.params.scene);
+                res.status(204);
+                return res.end();    
+            }
+            res.status(404);
+            return res.end();
         }catch (err) {
             return next(err);
         }
