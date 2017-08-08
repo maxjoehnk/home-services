@@ -1,6 +1,7 @@
 const { Router } = require('express');
-const { stream, chips, presence } = require('../stubs');
+const { stream: streamStub, chips, presence } = require('../stubs');
 const providers = require('../providers');
+const stream = require('../stream');
 
 module.exports = config => {
     const router = new Router();
@@ -10,10 +11,19 @@ module.exports = config => {
         activateScene
     } = providers(config);
 
-    router.get('/stream', (req, res) => {
-        res.status(200);
-        res.json(stream);
-        res.end();
+    const {
+        fetchStream
+    } = stream(config);
+
+    router.get('/stream', async(req, res, next) => {
+        try {
+            const stream = await fetchStream();
+            res.status(200);
+            res.json([...stream, ...streamStub]);
+            res.end();
+        }catch (err) {
+            return next(err);
+        }
     });
 
     router.get('/chips', (req, res) => {

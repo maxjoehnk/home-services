@@ -8,7 +8,7 @@
     </md-card-header>
     <md-card-content fxLayout="column">
         <md-select placeholder="Input">
-            <md-option *ngFor="let input of avr.inputs" [value]="input">{{ input }}</md-option>
+            <md-option *ngFor="let input of avr.inputs" [value]="input">{{ input.display || input.name }}</md-option>
         </md-select>
     </md-card-content>
 </md-card>

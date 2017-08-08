@@ -4,6 +4,8 @@ module.exports = config => {
     const getProvidersOfType = type =>
         config.providers.filter(provider => provider.type === type);
 
+    const getProviderByName = name => config.providers.find(provider => provider.name === name);
+
     const _fetchScenes = async() => {
         const providers = getProvidersOfType('generic-scenes');
         return await Promise.all(providers.map(({ url }) =>
@@ -46,12 +48,35 @@ module.exports = config => {
         }, scene));
     };
 
+    const fetchInputs = ({ url }) => fetch(`${url}/inputs`)
+        .then(async res => {
+            if (res.ok) {
+                return res;
+            }
+            const body = await res.json();
+            throw new Error(body.message);
+        })
+        .then(res => res.json());
+
+    const fetchLights = ({ url }) => fetch(`${url}/lights`)
+        .then(async res => {
+            if (res.ok) {
+                return res;
+            }
+            const body = await res.json();
+            throw new Error(body.message);
+        })
+        .then(res => res.json());
+
     const activateScene = ({ url }, scene) => fetch(`${url}/scenes/${scene}/activate`);
 
     return {
         getProvidersOfType,
+        getProviderByName,
         fetchScenes,
         findProviderByScene,
-        activateScene
+        activateScene,
+        fetchInputs,
+        fetchLights
     };
 };
