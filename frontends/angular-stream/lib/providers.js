@@ -5,8 +5,9 @@ module.exports = config => {
         config.providers.filter(provider => provider.type === type);
 
     const fetchScenes = async() => {
-        const scenes = await Promise.all(getProvidersOfType('generic-scenes')
-            .map(({ url }) => fetch(`${url}/scenes`)
+        const providers = getProvidersOfType('generic-scenes');
+        const scenes = await Promise.all(providers.map(({ url }) =>
+            fetch(`${url}/scenes`)
                 .then(async res => {
                     if (res.ok) {
                         return res;
@@ -16,7 +17,16 @@ module.exports = config => {
                 })
                 .then(res => res.json())
             ));
-        return scenes.reduce((a, b) => a.concat(b));
+        const all = scenes.reduce((a, b) => a.concat(b));
+        let icons = {};
+        providers.forEach(provider => {
+            if (provider.icons) {
+                icons = Object.assign({}, icons, provider.icons);
+            }
+        });
+        return all.map(scene => Object.assign({
+            icon: icons[scene.id]
+        }, scene));
     };
 
     return {
