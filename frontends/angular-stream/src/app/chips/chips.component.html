@@ -1,10 +1,8 @@
-<md-list>
-    <h3 md-subheader>Chips</h3>
-</md-list>
-<md-chip-list>
-    <md-chip *ngFor="let chip of (chips | async)?.chips"
-             color="primary"
-             selected="true">
-        {{ (chip.type === 'weather') ? (chip.text | celsius) : (chip.text) }}
-    </md-chip>
-</md-chip-list>
+<div fxLayout="row" class="container">
+    <div class="action" *ngFor="let chip of (chips | async)?.chips">
+    <span *ngIf="chip.type === 'weather'">{{ chip.temperature}}°</span>
+        <i class="mdi"
+           [ngClass]="'mdi-' + chip.icon"
+           *ngIf="chip.type === 'icon'"></i>
+    </div>
+</div>

@@ -234,12 +234,12 @@ const stream = [
 
 const chips = [
     {
-        text: '22',
+        temperature: '22',
         type: 'weather'
     },
     {
-        text: 'Test',
-        type: 'text'
+        icon: 'lock-open-outline',
+        type: 'icon'
     }
 ];
 

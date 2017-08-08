@@ -1,8 +1,19 @@
-:host {
-    display: flex;
-    flex-direction: column;
+$size: 36px;
+.container {
+    margin-left: 16px;
+}
 
-    md-chip-list {
-        margin-left: 20px;
+.action {
+    background: rgba(0, 0, 0, .1);
+    border-radius: $size;
+    height: $size;
+    width: $size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+
+    span {
+        font-size: 12px;
     }
 }
