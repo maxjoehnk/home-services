@@ -28,6 +28,7 @@ import { CardsComponent } from './cards/cards.component';
 import { StreamComponent } from './stream/stream.component';
 import { ScenesComponent } from './scenes/scenes.component';
 import { ChipsComponent } from './chips/chips.component';
+import { PresenceComponent } from './presence/presence.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ChipsComponent } from './chips/chips.component';
     CardsComponent,
     StreamComponent,
     ScenesComponent,
-    ChipsComponent
+    ChipsComponent,
+    PresenceComponent
   ],
   imports: [
     BrowserModule,

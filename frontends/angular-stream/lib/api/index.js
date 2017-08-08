@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { stream, chips } = require('../stubs');
+const { stream, chips, presence } = require('../stubs');
 const providers = require('../providers');
 
 module.exports = config => {
@@ -22,6 +22,12 @@ module.exports = config => {
         res.end();
     });
 
+    router.get('/presence', (req, res) => {
+        res.status(200);
+        res.json(presence);
+        res.end();
+    });
+
     router.get('/scenes', async(req, res, next) => {
         try {
             const scenes = await fetchScenes();
@@ -39,7 +45,7 @@ module.exports = config => {
             if (provider !== null) {
                 await activateScene(provider, req.params.scene);
                 res.status(204);
-                return res.end();    
+                return res.end();
             }
             res.status(404);
             return res.end();
