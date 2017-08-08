@@ -2,7 +2,8 @@
     <h3 md-subheader>Scenes</h3>
 </md-list>
 <div fxLayout class="scene-list">
-    <md-card *ngFor="let scene of (scenes | async)?.scenes">
+    <md-card *ngFor="let scene of (scenes | async)?.scenes"
+             (click)="activateScene(scene)">
         <i class="mdi" [ngClass]="'mdi-' + scene.icon"></i>
         <p>{{ scene.name }}</p>
     </md-card>

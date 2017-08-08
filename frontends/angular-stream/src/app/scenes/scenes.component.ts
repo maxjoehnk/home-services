@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { IState, IScenesState } from '../store';
-import { LoadScenes } from '../store/actions/scenes';
+import { LoadScenes, ActivateScene } from '../store/actions/scenes';
 
 @Component({
     selector: 'app-scenes',
@@ -18,5 +18,9 @@ export class ScenesComponent implements OnInit {
 
     ngOnInit() {
         this.store.dispatch(new LoadScenes());
+    }
+
+    activateScene(scene) {
+        this.store.dispatch(new ActivateScene(scene.id));
     }
 }
