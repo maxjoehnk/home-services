@@ -20,6 +20,10 @@ $card-width: $card + $margin + $margin;
         width: 3 * $card-width;
     }
 
+    @media screen and (min-width: 4 * $card-width) {
+        width: 4 * $card-width;
+    }
+
     margin: 0 auto;
     padding-top: 16px;
 }
