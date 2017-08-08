@@ -11,7 +11,7 @@ async function getAllScenes(req, res) {
             const { name, states } = scenes[id];
             return {
                 id,
-                name: name || id,
+                name: name || id,
                 states: states ? Object.getOwnPropertyNames(states) : []
             };
         });
