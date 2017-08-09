@@ -12,13 +12,17 @@ yargs
     .string('config')
     .alias('c', 'config')
     .describe('config', '<path> Path to the config file')
+    .boolean('debug')
+    .describe('debug', 'Enable Redux Debugging')
     .alias('h', 'help')
     .help()
     .version(package.version);
 
 const { argv } = yargs;
 
-const options = {};
+const options = {
+    debug: !!argv.debug
+};
 
 if (argv.verbose) {
     switch (argv.verbose) {
