@@ -5,6 +5,9 @@ const {
     APPLICATION_EXIT,
     MEDIA_STATE,
     MEDIA_METADATA,
+    MEDIA_DURATION,
+    MEDIA_CURRENT_TIME,
+    MEDIA_PLAYBACK_RATE,
     VOLUME_CHANGE,
     VOLUME_MUTE,
     VOLUME_UNMUTE
@@ -57,6 +60,24 @@ const reduceDevice = (state, action) => {
                     metadata: action.payload.metadata
                 })
             });
+        case MEDIA_DURATION:
+            return Object.assign({}, state, {
+                media: Object.assign({}, state.media, {
+                    duration: action.payload.duration
+                })
+            });
+        case MEDIA_CURRENT_TIME:
+            return Object.assign({}, state, {
+                media: Object.assign({}, state.media, {
+                    currentTime: action.payload.time
+                })
+            });
+        case MEDIA_PLAYBACK_RATE:
+            return Object.assign({}, state, {
+                media: Object.assign({}, state.media, {
+                    playbackRate: action.payload.rate
+                })
+            });
         default:
             return state;
     }
@@ -80,6 +101,9 @@ const reduce = (state = {}, action) => {
         case APPLICATION_LAUNCH:
         case MEDIA_METADATA:
         case MEDIA_STATE:
+        case MEDIA_DURATION:
+        case MEDIA_CURRENT_TIME:
+        case MEDIA_PLAYBACK_RATE:
         case VOLUME_CHANGE:
             return Object.assign({}, state, {
                 [action.payload.device]: reduceDevice(state[action.payload.device], action)
