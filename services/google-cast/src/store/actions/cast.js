@@ -4,15 +4,12 @@ const CAST_STATUS = '[Device] Status';
 
 const castOnline = service => ({
     type: CAST_ONLINE,
-    payload: {
-        name: service.txtRecord.fn,
-        service
-    }
+    payload: service
 });
 
 const castOffline = service => ({
     type: CAST_OFFLINE,
-    payload: service.txtRecord.fn
+    payload: service.name
 });
 
 const castStatus = (device, status) => ({

@@ -8,8 +8,8 @@ const reduceDevice = (state, action) => {
     switch (action.type) {
         case CAST_ONLINE:
             return {
-                name: action.payload.name,
-                id: action.payload.service.name
+                name: action.payload.txtRecord.fn,
+                id: action.payload.name
             };
         case CAST_STATUS: {
             const { volume, applications } = action.payload.status;

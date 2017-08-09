@@ -9,7 +9,6 @@ const {
 
 module.exports = ({ dispatch }) => {
     const connect = service => new Promise((resolve, reject) => {
-        const device = service.txtRecord.fn;
         const client = new Client();
 
         const onConnect = () => {
@@ -23,7 +22,7 @@ module.exports = ({ dispatch }) => {
             });
         };
 
-        const onStatus = status => dispatch(castStatus(device, status));
+        const onStatus = status => dispatch(castStatus(service.name, status));
 
         client.connect(service.addresses[0], onConnect);
 
