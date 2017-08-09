@@ -1,4 +1,8 @@
-const { CAST_OFFLINE, CAST_ONLINE } = require('../actions');
+const {
+    CAST_OFFLINE,
+    CAST_ONLINE,
+    CAST_STATUS
+} = require('../actions');
 
 const reduceDevice = (state, action) => {
     switch (action.type) {
@@ -7,6 +11,23 @@ const reduceDevice = (state, action) => {
                 name: action.payload.name,
                 id: action.payload.service.name
             };
+        case CAST_STATUS: {
+            const { volume, applications } = action.payload.status;
+            let application = null;
+            if (applications) {
+                application = applications[0];
+            }
+            return Object.assign({}, state, {
+                volume: volume.level,
+                mute: volume.muted,
+                application: application ? {
+                    id: application.appId,
+                    displayName: application.displayName,
+                    statusText: application.statusText,
+                    namespaces: application.namespaces.map(({ name }) => name)
+                } : null
+            });
+        }
         default:
             return state;
     }
@@ -27,6 +48,10 @@ const reduce = (state = {}, action) => {
             });
             return result;
         }
+        case CAST_STATUS:
+            return Object.assign({}, state, {
+                [action.payload.device]: reduceDevice(state[action.payload.device], action)
+            });
         default:
             return state;
     }

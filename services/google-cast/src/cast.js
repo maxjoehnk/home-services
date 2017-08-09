@@ -1,14 +1,34 @@
+const { Client } = require('castv2-client');
 const mdns = require('mdns');
 const logger = require('./logger');
 const {
     castOnline,
-    castOffline
+    castOffline,
+    castStatus
 } = require('./store/actions');
 
-module.exports = store => {
-    const connect = service => {
+module.exports = ({ dispatch }) => {
+    const connect = service => new Promise((resolve, reject) => {
+        const device = service.txtRecord.fn;
+        const client = new Client();
 
-    };
+        const onConnect = () => {
+            client.on('status', onStatus);
+            client.getStatus((err, status) => {
+                if (err) {
+                    logger.error(err);
+                    return;
+                }
+                onStatus(status);
+            });
+        };
+
+        const onStatus = status => dispatch(castStatus(device, status));
+
+        client.connect(service.addresses[0], onConnect);
+
+        client.on('error', err => reject(err));
+    });
 
     const setup = () => {
         const resolverSequence = [
@@ -23,11 +43,11 @@ module.exports = store => {
         });
         browser.on('serviceUp', service => {
             logger.debug(`Found ${service.txtRecord.fn}`, service);
-            store.dispatch(castOnline(service));
+            dispatch(castOnline(service));
             connect(service);
         });
         browser.on('serviceDown', service => {
-            store.dispatch(castOffline(service));
+            dispatch(castOffline(service));
         });
         browser.start();
     };
