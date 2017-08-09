@@ -3,6 +3,8 @@ const {
     CAST_ONLINE,
     APPLICATION_LAUNCH,
     APPLICATION_EXIT,
+    MEDIA_STATE,
+    MEDIA_METADATA,
     VOLUME_CHANGE,
     VOLUME_MUTE,
     VOLUME_UNMUTE
@@ -40,7 +42,20 @@ const reduceDevice = (state, action) => {
         }
         case APPLICATION_EXIT:
             return Object.assign({}, state, {
-                application: undefined
+                application: undefined,
+                media: undefined
+            });
+        case MEDIA_STATE:
+            return Object.assign({}, state, {
+                media: Object.assign({}, state.media, {
+                    state: action.payload.state
+                })
+            });
+        case MEDIA_METADATA:
+            return Object.assign({}, state, {
+                media: Object.assign({}, state.media, {
+                    metadata: action.payload.metadata
+                })
             });
         default:
             return state;
@@ -63,11 +78,13 @@ const reduce = (state = {}, action) => {
             return result;
         }
         case APPLICATION_LAUNCH:
-        case APPLICATION_EXIT:
+        case MEDIA_METADATA:
+        case MEDIA_STATE:
         case VOLUME_CHANGE:
             return Object.assign({}, state, {
                 [action.payload.device]: reduceDevice(state[action.payload.device], action)
             });
+        case APPLICATION_EXIT:
         case VOLUME_MUTE:
         case VOLUME_UNMUTE:
             return Object.assign({}, state, {

@@ -1,10 +1,11 @@
-const { Client } = require('castv2-client');
+const { Client, DefaultMediaReceiver } = require('castv2-client');
 const mdns = require('mdns');
 const logger = require('./logger');
 const {
     castOnline,
     castOffline,
-    castStatus
+    castStatus,
+    mediaStatus
 } = require('./store/actions');
 
 module.exports = ({ dispatch }) => {
@@ -22,7 +23,38 @@ module.exports = ({ dispatch }) => {
             });
         };
 
-        const onStatus = status => dispatch(castStatus(service.name, status));
+        const onMedia = status => {
+            dispatch(mediaStatus(service.name, status));
+        };
+
+        const onStatus = status => {
+            dispatch(castStatus(service.name, status));
+
+            if (status.applications) {
+                client.join(status.applications[0], DefaultMediaReceiver, (err, app) => {
+                    if (err) {
+                        return logger.error(err);
+                    }
+
+                    app.getStatus((err, appStatus) => {
+                        if (err) {
+                            return logger.error(err);
+                        }
+                        appStatus && onMedia(appStatus);
+                    });
+                    /*setInterval(() => {
+                        app.getStatus((err, appStatus) => {
+                            if (err) {
+                                return logger.error(err);
+                            }
+                            appStatus && onMedia(appStatus);
+                        });
+                    }, 1000);*/
+                    app.on('status', appStatus => onMedia(appStatus));
+                    logger.trace(app, 'Running Application');
+                });
+            }
+        };
 
         client.connect(service.addresses[0], onConnect);
 
