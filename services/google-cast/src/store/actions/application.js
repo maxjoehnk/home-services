@@ -1,9 +1,11 @@
 const APPLICATION_LAUNCH = '[Application] Launch';
 const APPLICATION_EXIT = '[Application] Exit';
 
-const applicationLaunch = () => ({
+const applicationLaunch = (device, application) => ({
     type: APPLICATION_LAUNCH,
     payload: {
+        device,
+        application
     }
 });
 

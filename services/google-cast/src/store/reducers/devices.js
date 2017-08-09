@@ -1,7 +1,11 @@
 const {
     CAST_OFFLINE,
     CAST_ONLINE,
-    CAST_STATUS
+    APPLICATION_LAUNCH,
+    APPLICATION_EXIT,
+    VOLUME_CHANGE,
+    VOLUME_MUTE,
+    VOLUME_UNMUTE
 } = require('../actions');
 
 const reduceDevice = (state, action) => {
@@ -11,23 +15,33 @@ const reduceDevice = (state, action) => {
                 name: action.payload.txtRecord.fn,
                 id: action.payload.name
             };
-        case CAST_STATUS: {
-            const { volume, applications } = action.payload.status;
-            let application = null;
-            if (applications) {
-                application = applications[0];
-            }
+        case VOLUME_CHANGE:
             return Object.assign({}, state, {
-                volume: volume.level,
-                mute: volume.muted,
-                application: application ? {
-                    id: application.appId,
-                    displayName: application.displayName,
-                    statusText: application.statusText,
-                    namespaces: application.namespaces.map(({ name }) => name)
-                } : null
+                volume: action.payload.volume
+            });
+        case VOLUME_MUTE:
+            return Object.assign({}, state, {
+                mute: true
+            });
+        case VOLUME_UNMUTE:
+            return Object.assign({}, state, {
+                mute: false
+            });
+        case APPLICATION_LAUNCH: {
+            const { appId, displayName, statusText, namespaces } = action.payload.application;
+            return Object.assign({}, state, {
+                application: {
+                    id: appId,
+                    displayName,
+                    statusText,
+                    namespaces: namespaces.map(({ name }) => name)
+                }
             });
         }
+        case APPLICATION_EXIT:
+            return Object.assign({}, state, {
+                application: undefined
+            });
         default:
             return state;
     }
@@ -48,9 +62,16 @@ const reduce = (state = {}, action) => {
             });
             return result;
         }
-        case CAST_STATUS:
+        case APPLICATION_LAUNCH:
+        case APPLICATION_EXIT:
+        case VOLUME_CHANGE:
             return Object.assign({}, state, {
                 [action.payload.device]: reduceDevice(state[action.payload.device], action)
+            });
+        case VOLUME_MUTE:
+        case VOLUME_UNMUTE:
+            return Object.assign({}, state, {
+                [action.payload]: reduceDevice(state[action.payload], action)
             });
         default:
             return state;
