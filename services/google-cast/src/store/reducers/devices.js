@@ -1,6 +1,7 @@
 const {
     CAST_OFFLINE,
     CAST_ONLINE,
+    CAST_IDLE,
     APPLICATION_LAUNCH,
     APPLICATION_EXIT,
     MEDIA_STATE_PLAYING,
@@ -21,8 +22,13 @@ const reduceDevice = (state, action) => {
         case CAST_ONLINE:
             return {
                 name: action.payload.txtRecord.fn,
-                id: action.payload.name
+                id: action.payload.name,
+                idle: true
             };
+        case CAST_IDLE:
+            return Object.assign({}, state, {
+                idle: true
+            });
         case VOLUME_CHANGE:
             return Object.assign({}, state, {
                 volume: action.payload.volume
@@ -43,13 +49,15 @@ const reduceDevice = (state, action) => {
                     displayName,
                     statusText,
                     namespaces: namespaces.map(({ name }) => name)
-                }
+                },
+                idle: false
             });
         }
         case APPLICATION_EXIT:
             return Object.assign({}, state, {
                 application: undefined,
-                media: undefined
+                media: undefined,
+                idle: true
             });
         case MEDIA_STATE_PLAYING:
             return Object.assign({}, state, {
@@ -133,6 +141,7 @@ const reduce = (state = {}, action) => {
         case MEDIA_STATE_IDLE:
         case MEDIA_STATE_BUFFERING:
         case APPLICATION_EXIT:
+        case CAST_IDLE:
         case VOLUME_MUTE:
         case VOLUME_UNMUTE:
             return Object.assign({}, state, {
