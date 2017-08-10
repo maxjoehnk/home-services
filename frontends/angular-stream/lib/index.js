@@ -1,5 +1,5 @@
 const express = require('express');
-const { Server } = require('ws');
+const { Server, OPEN } = require('ws');
 const { createServer } = require('http');
 const api = require('./api');
 const logger = require('./logger');
@@ -20,7 +20,9 @@ async function setup() {
         logger.debug({ req });
         const interval = setInterval(async() => {
             const stream = await fetchStream();
-            ws.send(JSON.stringify([...stream, ...stub]));
+            if (ws.readyState === OPEN) {
+                ws.send(JSON.stringify([...stream, ...stub]));
+            }
         }, 1000);
         ws.on('close', () => {
             clearInterval(interval);
