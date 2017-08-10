@@ -19,12 +19,31 @@ module.exports = (server, { getState }) => {
         res.end();
     });
 
-    server.get('/devices/:device', getDevice, (req, res, next) => {
+    server.get('/devices/:device', getDevice, (req, res) => {
         res.status(200);
         res.json(req.device);
         res.end();
     });
 
-    server.get('/devices/:device', (req, res, next) => {
+    server.get('/devices/:device/application', getDevice, (req, res) => {
+        const { application } = req.device;
+        if (application) {
+            res.status(200);
+            res.json(application);
+            return res.end();
+        }
+        res.status(204);
+        res.end();
+    });
+
+    server.get('/devices/:device/media', getDevice, (req, res) => {
+        const { media } = req.device;
+        if (media) {
+            res.status(200);
+            res.json(media);
+            return res.end();
+        }
+        res.status(204);
+        res.end();
     });
 };
