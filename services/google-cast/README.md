@@ -8,10 +8,11 @@ Available Event Types:
 - pause
 - idle
 - buffering
-- launch
 - volume
 - mute
 - unmute
+- launch
+- exit
 
 ```yaml
 port: 8080

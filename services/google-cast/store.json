@@ -1,0 +1,53 @@
+{
+    "devices": {
+        "Max Room": {
+            "id": "Chromecast-bb8acccd77975aeb8f1effb29fb949f4",
+            "name": "Max Room",
+            "application": {
+                "id": "233637DE",
+                "displayName": "YouTube",
+                "statusText": "YouTube",
+                "namespaces": [
+                    "urn:x-cast:com.google.cast.debugoverlay",
+                    "urn:x-cast:com.google.cast.cac",
+                    "urn:x-cast:com.google.cast.media",
+                    "urn:x-cast:com.google.youtube.mdx"
+                ]
+            },
+            "media": {
+                "state": "PLAYING",
+                "metadata": {
+                    "image": "https://i.ytimg.com/vi/1cKX9S7o5tg/hqdefault.jpg",
+                    "title": "FASTEST Ultrawide Gaming Monitor – But at What Cost?...",
+                    "artist": "Rage against the Machine",
+                    "album": {
+                        "name": "Rage against the Machine",
+                        "artist": "Rage against the Machine"
+                    }
+                },
+                "duration": 445.54448979591837,
+                "currentTime": 206.064,
+                "playbackRate": 1
+            }
+        }
+    },
+    "events": {
+        "Max Room": {
+            "play": [
+                {
+                    "applications": [
+                        "Netflix"
+                    ],
+                    "urls": [
+                        "http://google.com"
+                    ]
+                },
+                {
+                    "urls": [
+                        "http://google.com"
+                    ]
+                }
+            ]
+        }
+    }
+}

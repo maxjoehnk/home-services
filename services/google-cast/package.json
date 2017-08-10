@@ -26,6 +26,9 @@
         "js-yaml": "^3.9.0",
         "mdns": "^2.3.3",
         "node-fetch": "^1.7.1",
+        "redux": "^3.7.2",
+        "redux-saga": "^0.15.6",
+        "remote-redux-devtools": "^0.5.12",
         "restify": "^5.0.1",
         "yargs": "^8.0.2"
     },

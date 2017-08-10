@@ -1,54 +1,49 @@
-const logger = require('./logger');
-const cast = require('./cast');
+const { NotFoundError } = require('restify-errors');
 
-function getServices(services) {
-    return function(req, res) {
-        res.send(200, services);
-    };
-}
+module.exports = (server, { getState }) => {
 
-function getStatus(services) {
-    return async function(req, res, next) {
-        const names = Object.getOwnPropertyNames(services);
-        const devices = {};
-        for (let i = 0; i < names.length; i++) {
-            const name = names[i];
-            logger.debug(`Fetching Status of ${name}`);
-            const service = services[name];
-            try {
-                const client = await cast.connect(service);
-                const status = await cast.getStatus(client);
-                devices[name] = status;
-            }catch (err) {
-                return next(err);
-            }
+    const getDevice = (req, res, next) => {
+        const state = getState();
+        const device = state.devices[req.params.device];
+        if (typeof device !== 'undefined') {
+            req.device = device;
+            return next();
         }
-        res.send(200, devices);
+        return next(new NotFoundError(`Device ${req.params.device} is not available`));
     };
-}
 
-function getSessions(services) {
-    return async function(req, res, next) {
-        const names = Object.getOwnPropertyNames(services);
-        const devices = {};
-        for (let i = 0; i < names.length; i++) {
-            const name = names[i];
-            logger.debug(`Fetching Sessions of ${name}`);
-            const service = services[name];
-            try {
-                const client = await cast.connect(service);
-                const sessions = await cast.getSessions(client);
-                devices[name] = sessions;
-            }catch (err) {
-                return next(err);
-            }
+    server.get('/devices', (req, res) => {
+        const state = getState();
+        res.status(200);
+        res.json(state.devices);
+        res.end();
+    });
+
+    server.get('/devices/:device', getDevice, (req, res) => {
+        res.status(200);
+        res.json(req.device);
+        res.end();
+    });
+
+    server.get('/devices/:device/application', getDevice, (req, res) => {
+        const { application } = req.device;
+        if (application) {
+            res.status(200);
+            res.json(application);
+            return res.end();
         }
-        res.send(200, devices);
-    };
-}
+        res.status(204);
+        res.end();
+    });
 
-module.exports = {
-    getServices,
-    getStatus,
-    getSessions
+    server.get('/devices/:device/media', getDevice, (req, res) => {
+        const { media } = req.device;
+        if (media) {
+            res.status(200);
+            res.json(media);
+            return res.end();
+        }
+        res.status(204);
+        res.end();
+    });
 };

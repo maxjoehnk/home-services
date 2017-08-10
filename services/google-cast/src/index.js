@@ -2,11 +2,12 @@ const fs = require('fs');
 const { resolve } = require('path');
 const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
-const { createServer } = require('restify');
-const mdns = require('mdns');
+const { createServer, plugins } = require('restify');
+const setupRoutes = require('./routes');
+const setupCast = require('./cast');
+const createStore = require('./store');
+const { eventSetup } = require('./store/actions');
 const logger = require('./logger');
-const routes = require('./routes');
-const cast = require('./cast');
 
 const readFile = promisify(fs.readFile);
 
@@ -15,41 +16,20 @@ async function start(args) {
         const options = defaultOptions(args);
         logger.level(options.logLevel);
         const config = await loadConfig(options.config);
-        const resolverSequence = [
-            mdns.rst.DNSServiceResolve(),                 // eslint-disable-line new-cap
-            'DNSServiceGetAddrInfo' in mdns.dns_sd ?
-                mdns.rst.DNSServiceGetAddrInfo() :        // eslint-disable-line new-cap
-                mdns.rst.getaddrinfo({ families: [4] }),
-            mdns.rst.makeAddressesUnique()
-        ];
-        const browser = mdns.createBrowser(mdns.tcp('googlecast'), { resolverSequence });
-        const services = {};
-        browser.on('serviceUp', async service => {
-            const name = service.txtRecord.fn;
-            logger.debug(`Found ${name}`, service);
-            if (config.devices[name]) {
-                cast.setup(service, config.devices[name]);
-            }
-            services[service.name] = service;
+        const store = createStore(options);
+        store.dispatch(eventSetup(config));
+        setupCast(store);
+        const server = createServer({
+            log: logger
         });
-        browser.on('serviceDown', service => {
-            delete services[service.name];
-        });
-        browser.start();
-        const server = createServer();
-        setupServer(server, services);
+        server.use(plugins.requestLogger());
+        setupRoutes(server, store);
         server.listen(config.port, () => {
             logger.info(`Listening on Port ${config.port}`);
         });
     }catch (err) {
         logger.fatal(err);
     }
-}
-
-function setupServer(server, services) {
-    server.get('/devices', routes.getServices(services));
-    server.get('/status', routes.getStatus(services));
-    server.get('/sessions', routes.getSessions(services));
 }
 
 function defaultOptions(options) {

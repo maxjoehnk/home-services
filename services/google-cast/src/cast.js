@@ -1,149 +1,87 @@
-const { Client } = require('castv2-client');
-const { DefaultMediaReceiver } = require('castv2-client');
+const { Client, DefaultMediaReceiver } = require('castv2-client');
+const mdns = require('mdns');
 const logger = require('./logger');
-const execute = require('../../../shared/url-executor');
+const {
+    castOnline,
+    castOffline,
+    castStatus,
+    mediaStatus
+} = require('./store/actions');
 
-function connect(service) {
-    const client = new Client();
-    return new Promise((resolve, reject) => {
-        client.connect(service.addresses[0], () => {
-            resolve(client);
-        });
+module.exports = ({ dispatch }) => {
+    const connect = service => new Promise((resolve, reject) => {
+        const client = new Client();
 
-        client.on('error', err => {
-            reject(err);
-        });
-    });
-}
+        const onConnect = () => {
+            client.on('status', onStatus);
+            client.getStatus((err, status) => {
+                if (err) {
+                    logger.error(err);
+                    return;
+                }
+                onStatus(status);
+            });
+        };
 
-function getStatus(client) {
-    return new Promise((resolve, reject) => {
-        client.getStatus((err, status) => {
-            if (err) {
-                return reject(err);
-            }
-            return resolve(status);
-        });
-    });
-}
+        const onMedia = status => {
+            dispatch(mediaStatus(service.name, status));
+        };
 
-function getSessions(client) {
-    return new Promise((resolve, reject) => {
-        client.getSessions((err, sessions) => {
-            if (err) {
-                return reject(err);
-            }
-            return resolve(sessions);
-        });
-    });
-}
+        const onStatus = status => {
+            dispatch(castStatus(service.name, status));
 
-async function setup(service, config) {
-    const client = await connect(service);
-    let lastAppStatus;
-    let lastStatus;
-    let interval;
-    let currentApp;
-    const handleStatusUpdate = status => {
-        logger.trace(status, 'Device Status');
-        if (lastStatus && status.volume.level !== lastStatus.volume.level) {
-            emit(config, 'volume', currentApp);
-        }
-        if (lastStatus && status.volume.muted !== lastStatus.volume.muted) {
-            emit(config, status.volume.muted ? 'mute' : 'unmute', currentApp);
-        }
-        if (status.applications && status.applications.length > 0) {
-            if (!lastStatus || !lastStatus.applications || lastStatus.applications !== status.applications) {
-                //!app && app.close();
-                // TODO: test for media capability
-                currentApp = status.applications[0];
-                emit(config, 'launch', currentApp);
+            if (status.applications) {
                 client.join(status.applications[0], DefaultMediaReceiver, (err, app) => {
                     if (err) {
-                        console.error(err);
-                        return;
+                        return logger.error(err);
                     }
+
                     app.getStatus((err, appStatus) => {
                         if (err) {
                             return logger.error(err);
                         }
-                        appStatus && handleAppStatusUpdate(appStatus);
+                        appStatus && onMedia(appStatus);
                     });
-                    interval = setInterval(() => {
+                    setInterval(() => {
                         app.getStatus((err, appStatus) => {
                             if (err) {
                                 return logger.error(err);
                             }
-                            appStatus && handleAppStatusUpdate(appStatus);
+                            appStatus && onMedia(appStatus);
                         });
                     }, 1000);
-                    app.on('status', appStatus => handleAppStatusUpdate(appStatus));
+                    app.on('status', appStatus => onMedia(appStatus));
                     logger.trace(app, 'Running Application');
                 });
             }
-        }else {
-            currentApp = null;
-            if (interval) {
-                clearInterval(interval);
-            }
-        }
-        lastStatus = status;
-    };
-    const handleAppStatusUpdate = status => {
-        logger.trace(status, 'App Status');
-        if (lastAppStatus && lastAppStatus.playerState !== status.playerState) {
-            switch (status.playerState) {
-                case 'PAUSED':
-                    emit(config, 'pause', currentApp);
-                    break;
-                case 'PLAYING':
-                    emit(config, 'play', currentApp);
-                    break;
-                case 'IDLE':
-                    emit(config, 'idle', currentApp);
-                    break;
-                case 'BUFFERING':
-                    emit(config, 'buffering', currentApp);
-                    break;
-            }
-        }
-        lastAppStatus = status;
-    };
-    client.getStatus((err, status) => {
-        if (err) {
-            logger.error(err);
-            return;
-        }
-        handleStatusUpdate(status);
+        };
+
+        client.connect(service.addresses[0], onConnect);
+
+        client.on('error', err => reject(err));
     });
-    client.on('status', status => handleStatusUpdate(status));
-}
 
-async function emit(handler, name, application) {
-    logger.debug(`Emitting event ${name}`);
-    for (let i = 0; i < handler.length; i++) {
-        const { events, applications, urls } = handler[i];
-        logger.trace(handler[i]);
-        if (events.includes(name)) {
-            if (applications && application && application.displayName) {
-                if (!applications.includes(application.displayName)) {
-                    logger.debug(`Skipping Event execution for App ${application.displayName}`);
-                    continue;
-                }
-            }
-            logger.debug(`Executing Urls for event ${name}`);
-            try {
-                await execute(urls);
-            }catch (err) {
-                logger.error(err);
-            }
-        }
-    }
-}
+    const setup = () => {
+        const resolverSequence = [
+            mdns.rst.DNSServiceResolve(),          // eslint-disable-line new-cap
+            'DNSServiceGetAddrInfo' in mdns.dns_sd ?
+                mdns.rst.DNSServiceGetAddrInfo() : // eslint-disable-line new-cap
+                mdns.rst.getaddrinfo({ families: [4] }),
+            mdns.rst.makeAddressesUnique()
+        ];
+        const browser = mdns.createBrowser(mdns.tcp('googlecast'), {
+            resolverSequence
+        });
+        browser.on('serviceUp', service => {
+            logger.debug({ service }, `Found ${service.txtRecord.fn}`);
+            dispatch(castOnline(service));
+            connect(service);
+        });
+        browser.on('serviceDown', service => {
+            dispatch(castOffline(service));
+        });
+        browser.start();
+    };
 
-module.exports = {
-    connect,
-    getStatus,
-    getSessions,
-    setup
+    setup();
 };
