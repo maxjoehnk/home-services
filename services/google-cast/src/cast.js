@@ -42,14 +42,14 @@ module.exports = ({ dispatch }) => {
                         }
                         appStatus && onMedia(appStatus);
                     });
-                    /*setInterval(() => {
+                    setInterval(() => {
                         app.getStatus((err, appStatus) => {
                             if (err) {
                                 return logger.error(err);
                             }
                             appStatus && onMedia(appStatus);
                         });
-                    }, 1000);*/
+                    }, 1000);
                     app.on('status', appStatus => onMedia(appStatus));
                     logger.trace(app, 'Running Application');
                 });
