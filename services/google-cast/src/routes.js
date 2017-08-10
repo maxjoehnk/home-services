@@ -2,6 +2,18 @@ const { NotFoundError } = require('restify-errors');
 
 module.exports = (server, { getState }) => {
 
+    const getDevices = (req, res, next) => {
+        const { devices } = getState();
+        let ids = Object.getOwnPropertyNames(devices);
+        if (typeof req.query.idle !== 'undefined') {
+            if (req.query.idle === 'false') {
+                ids = ids.filter(id => !devices[id].idle);
+            }
+        }
+        req.devices = ids.map(id => devices[id]);
+        next();
+    };
+
     const getDevice = (req, res, next) => {
         const state = getState();
         const device = state.devices[req.params.device];
@@ -12,10 +24,9 @@ module.exports = (server, { getState }) => {
         return next(new NotFoundError(`Device ${req.params.device} is not available`));
     };
 
-    server.get('/devices', (req, res) => {
-        const state = getState();
+    server.get('/devices', getDevices, (req, res) => {
         res.status(200);
-        res.json(state.devices);
+        res.json(req.devices);
         res.end();
     });
 
