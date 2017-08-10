@@ -29,6 +29,10 @@ import { StreamComponent } from './stream/stream.component';
 import { ScenesComponent } from './scenes/scenes.component';
 import { ChipsComponent } from './chips/chips.component';
 import { PresenceComponent } from './presence/presence.component';
+import { LoadingIndicatorComponent } from './stream/loading-indicator/loading-indicator.component';
+import { ErrorIndicatorComponent } from './stream/error-indicator/error-indicator.component';
+import { EmptyIndicatorComponent } from './stream/empty-indicator/empty-indicator.component';
+import { ViewComponent } from './stream/view/view.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +46,11 @@ import { PresenceComponent } from './presence/presence.component';
     StreamComponent,
     ScenesComponent,
     ChipsComponent,
-    PresenceComponent
+    PresenceComponent,
+    LoadingIndicatorComponent,
+    ErrorIndicatorComponent,
+    EmptyIndicatorComponent,
+    ViewComponent
   ],
   imports: [
     BrowserModule,

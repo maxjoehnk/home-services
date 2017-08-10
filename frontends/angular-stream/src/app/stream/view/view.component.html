@@ -1,0 +1,11 @@
+<stream-cards [cards]="stream?.stream"
+              class="cards"
+              *ngIf="stream?.stream">
+</stream-cards>
+<stream-loading-indicator *ngIf="stream?.pending">
+</stream-loading-indicator>
+<stream-error-indicator *ngIf="stream?.error"
+                        [error]="stream?.error">
+</stream-error-indicator>
+<stream-empty-indicator *ngIf="isEmpty()">
+</stream-empty-indicator>
