@@ -6,6 +6,7 @@ const { createServer, plugins } = require('restify');
 const setupRoutes = require('./routes');
 const setupCast = require('./cast');
 const createStore = require('./store');
+const { eventSetup } = require('./store/actions');
 const logger = require('./logger');
 
 const readFile = promisify(fs.readFile);
@@ -16,6 +17,7 @@ async function start(args) {
         logger.level(options.logLevel);
         const config = await loadConfig(options.config);
         const store = createStore(options);
+        store.dispatch(eventSetup(config));
         setupCast(store);
         const server = createServer({
             log: logger
