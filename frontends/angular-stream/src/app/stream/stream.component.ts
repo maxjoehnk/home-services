@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MdSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { IState, IStreamState } from '../store';
-import { LoadCards } from '../store/actions/stream';
+import { LoadCards, LoadCardsSuccess } from '../store/actions/stream';
+import * as ReconnectingWebSocket from 'reconnecting-websocket';
 
 @Component({
   selector: 'app-stream',
@@ -11,13 +13,24 @@ import { LoadCards } from '../store/actions/stream';
 })
 export class StreamComponent implements OnInit {
     stream: Observable<IStreamState>;
+    ws: WebSocket;
 
-    constructor(private store: Store<IState>) {
+    constructor(private store: Store<IState>, private snackBar: MdSnackBar) {
         this.stream = store.select('stream');
     }
 
     ngOnInit() {
         this.store.dispatch(new LoadCards());
-        setInterval(() => this.store.dispatch(new LoadCards()), 5000);
+        this.snackBar.open('Connecting...');
+        this.ws = new ReconnectingWebSocket('ws://192.168.2.165:8080');
+        this.ws.addEventListener('message', event => {
+            this.store.dispatch(new LoadCardsSuccess(JSON.parse(event.data)));
+        });
+        this.ws.addEventListener('close', () => {
+            this.snackBar.open('Connecting...');
+        });
+        this.ws.addEventListener('open', () => {
+            this.snackBar.dismiss();
+        });
     }
 }

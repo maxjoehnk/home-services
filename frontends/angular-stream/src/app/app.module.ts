@@ -8,7 +8,8 @@ import {
     MdSelectModule,
     MdListModule,
     MdChipsModule,
-    MdProgressSpinnerModule
+    MdProgressSpinnerModule,
+    MdSnackBarModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
@@ -67,7 +68,8 @@ import { ViewComponent } from './stream/view/view.component';
     MdSelectModule,
     MdListModule,
     MdChipsModule,
-    MdProgressSpinnerModule
+    MdProgressSpinnerModule,
+    MdSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
