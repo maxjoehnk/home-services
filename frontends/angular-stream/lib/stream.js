@@ -1,4 +1,5 @@
 const providers = require('./providers');
+const logger = require('./logger');
 
 module.exports = config => {
     const {
@@ -75,22 +76,36 @@ module.exports = config => {
             switch (card.type) {
                 case 'yamaha-avr': {
                     const provider = getProviderByName(card.provider);
-                    const avr = await fetchYamahaAvrCard(provider, card);
-                    return [avr];
+                    try {
+                        const avr = await fetchYamahaAvrCard(provider, card);
+                        return [avr];
+                    }catch (err) {
+                        logger.error(err);
+                    }
+                    break;
                 }
                 case 'philips-hue': {
                     const provider = getProviderByName(card.provider);
-                    const lights = await fetchPhilipsHueCards(provider, card);
-                    return lights;
+                    try {
+                        return await fetchPhilipsHueCards(provider, card);
+                    }catch (err) {
+                        logger.error(err);
+                    }
+                    break;
                 }
                 case 'google-cast': {
                     const provider = getProviderByName(card.provider);
-                    const cards = await fetchGoogleCastCards(provider, card);
-                    return cards;
+                    try {
+                        return await fetchGoogleCastCards(provider, card);
+                    }catch (err) {
+                        logger.error(err);
+                    }
+                    break;
                 }
                 default:
                     throw new Error(`Invalid Card Type ${card.type}`);
             }
+            return [];
         }));
         return stream.reduce((a, b) => a.concat(b));
     };
