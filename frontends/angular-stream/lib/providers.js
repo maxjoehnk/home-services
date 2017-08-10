@@ -68,6 +68,16 @@ module.exports = config => {
         })
         .then(res => res.json());
 
+    const fetchCasts = ({ url }, idle) => fetch(`${url}/devices?idle=${!!idle}`)
+        .then(async res => {
+            if (res.ok) {
+                return res;
+            }
+            const body = await res.json();
+            throw new Error(body.message);
+        })
+        .then(res => res.json());
+
     const activateScene = ({ url }, scene) => fetch(`${url}/scenes/${scene}/activate`);
 
     return {
@@ -77,6 +87,7 @@ module.exports = config => {
         findProviderByScene,
         activateScene,
         fetchInputs,
-        fetchLights
+        fetchLights,
+        fetchCasts
     };
 };

@@ -4,7 +4,8 @@ module.exports = config => {
     const {
         getProviderByName,
         fetchInputs,
-        fetchLights
+        fetchLights,
+        fetchCasts
     } = providers(config);
 
     const fetchYamahaAvrCard = async(provider, { priority, name }) => {
@@ -53,6 +54,22 @@ module.exports = config => {
             }));
     };
 
+    const fetchGoogleCastCards = async(provider, { priority, filter, idle }) => {
+        const casts = await fetchCasts(provider, !!idle);
+        return casts
+            .filter(({ id, name }) => {
+                if (filter) {
+                    return filter.includes(id) || filter.includes(name);
+                }
+                return true;
+            })
+            .map(payload => ({
+                type: 'google-cast',
+                payload,
+                priority
+            }));
+    };
+
     const fetchStream = async() => {
         const stream = await Promise.all(config.stream.cards.map(async card => {
             switch (card.type) {
@@ -65,6 +82,11 @@ module.exports = config => {
                     const provider = getProviderByName(card.provider);
                     const lights = await fetchPhilipsHueCards(provider, card);
                     return lights;
+                }
+                case 'google-cast': {
+                    const provider = getProviderByName(card.provider);
+                    const cards = await fetchGoogleCastCards(provider, card);
+                    return cards;
                 }
                 default:
                     throw new Error(`Invalid Card Type ${card.type}`);

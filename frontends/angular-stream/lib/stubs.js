@@ -114,34 +114,6 @@ const stream = [
         },
         style: {},
         priority: 1
-    },
-    {
-        type: 'google-cast',
-        payload: {
-            id: 'Chromecast-bb8acccd77975aeb8f1effb29fb949f4',
-            name: 'Max Room',
-            application: {
-                title: 'You Me Her',
-                name: 'Netflix',
-                image: 'https://occ-0-768-769.1.nflxso.net/art/fb819/24fd7fb1a1f64dff7e755054a1e49e11684fb819.jpg'
-            }
-        },
-        style: {},
-        priority: 2
-    },
-    {
-        type: 'google-cast',
-        payload: {
-            id: 'Chromecast-608aea15d1c039d363aa93387ba493ca',
-            name: 'Living Room',
-            application: {
-                title: 'How I Met Your Mother',
-                name: 'Netflix',
-                image: 'https://occ-0-781-783.1.nflxso.net/art/75589/9ffd571632c0fd12cbc01b8118b00c87e9f75589.webp'
-            }
-        },
-        style: {},
-        priority: 100
     }
 ];
 
