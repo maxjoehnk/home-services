@@ -22,7 +22,7 @@ function emit(event) {
             const application = yield select(({ devices }) => devices[id].application);
             emitters.forEach(emitter => {
                 if (emitter.applications) {
-                    if (!emitter.applications.includes(application.displayName)) {
+                    if (!application || !emitter.applications.includes(application.displayName)) {
                         logger.debug(`Skipping Event Execution for Event ${event}`, emitter);
                         return;
                     }
