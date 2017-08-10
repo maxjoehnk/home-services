@@ -6,7 +6,14 @@ const logger = createLogger({
     stream: formatter({
         outputMode: 'short'
     }),
-    serializers: stdSerializers
+    serializers: Object.assign({}, stdSerializers, {
+        service: service => ({
+            name: service.name,
+            interface: service.networkInterface,
+            port: service.port,
+            addresses: service.addresses
+        })
+    })
 });
 
 module.exports = logger;

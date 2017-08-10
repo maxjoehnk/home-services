@@ -73,7 +73,7 @@ module.exports = ({ dispatch }) => {
             resolverSequence
         });
         browser.on('serviceUp', service => {
-            logger.debug(`Found ${service.txtRecord.fn}`, service);
+            logger.debug({ service }, `Found ${service.txtRecord.fn}`);
             dispatch(castOnline(service));
             connect(service);
         });
