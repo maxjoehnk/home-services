@@ -20,7 +20,7 @@ module.exports = ({ api, apiKey }) => {
             resolve(forecast.list.map(day => ({
                 weather: day.weather[0],
                 day: new Date(day.dt * 1000),
-                temperatures: {
+                temperature: {
                     min: day.temp.min,
                     max: day.temp.max,
                     day: day.temp.day
@@ -49,7 +49,7 @@ module.exports = ({ api, apiKey }) => {
             }
             resolve({
                 weather: weather.weather[0],
-                temperatures: {
+                temperature: {
                     min: weather.main.temp_min,
                     max: weather.main.temp_max,
                     current: weather.main.temp
