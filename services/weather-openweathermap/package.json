@@ -1,0 +1,33 @@
+{
+    "name": "openweathermap-service",
+    "version": "1.0.0",
+    "description": "Fast Weather Service based on openweathermap",
+    "main": "src/index.js",
+    "bin": "bin/openweathermap-service",
+    "scripts": {
+        "start": "bin/openweathermap-service",
+        "lint": "eslint src/** bin/**",
+        "test": "echo \"Error: no test specified\" && exit 0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maxjoehnk/home-services.git"
+    },
+    "author": "Max Jöhnk <maxjoehnk@gmail.com>",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/maxjoehnk/home-services/issues"
+    },
+    "homepage": "https://github.com/maxjoehnk/home-services#readme",
+    "dependencies": {
+        "bunyan": "^1.8.10",
+        "bunyan-format": "^0.2.1",
+        "js-yaml": "^3.9.0",
+        "openweathermap": "^1.0.0",
+        "restify": "^5.0.1",
+        "yargs": "^8.0.2"
+    },
+    "devDependencies": {
+        "eslint": "^4.3.0"
+    }
+}

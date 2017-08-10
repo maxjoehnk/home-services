@@ -34,4 +34,4 @@ This also allows a distributed installation of services, e.g. on multiple Raspbe
 - Lightify ([#2](https://github.com/maxjoehnk/home-services/issues/2))
 
 ## Weather
-- OpenWeatherMap
+- [OpenWeatherMap](https://github.com/maxjoehnk/home-services/tree/master/services/weather-openweathermap)
