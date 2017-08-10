@@ -5,7 +5,11 @@ const {
     APPLICATION_EXIT,
     VOLUME_CHANGE,
     VOLUME_MUTE,
-    VOLUME_UNMUTE
+    VOLUME_UNMUTE,
+    MEDIA_STATE_PLAYING,
+    MEDIA_STATE_PAUSED,
+    MEDIA_STATE_IDLE,
+    MEDIA_STATE_BUFFERING
 } = require('../actions');
 const execute = require('../../../../../shared/url-executor');
 
@@ -42,6 +46,10 @@ function* eventsSaga() {
     yield takeEvery(VOLUME_CHANGE, emit('volume'));
     yield takeEvery(VOLUME_MUTE, emit('mute'));
     yield takeEvery(VOLUME_UNMUTE, emit('unmute'));
+    yield takeEvery(MEDIA_STATE_PLAYING, emit('play'));
+    yield takeEvery(MEDIA_STATE_PAUSED, emit('pause'));
+    yield takeEvery(MEDIA_STATE_IDLE, emit('idle'));
+    yield takeEvery(MEDIA_STATE_BUFFERING, emit('buffering'));
 }
 
 module.exports = eventsSaga;

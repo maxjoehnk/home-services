@@ -1,5 +1,8 @@
 const MEDIA_STATUS = '[Media] Status';
-const MEDIA_STATE = '[Media] State';
+const MEDIA_STATE_PLAYING = '[Media] State Playing';
+const MEDIA_STATE_PAUSED = '[Media] State Paused';
+const MEDIA_STATE_IDLE = '[Media] State Idle';
+const MEDIA_STATE_BUFFERING = '[Media] State Buffering';
 const MEDIA_METADATA = '[Media] Metadata';
 const MEDIA_DURATION = '[Media] Duration';
 const MEDIA_CURRENT_TIME = '[Media] Current Time';
@@ -14,11 +17,8 @@ const mediaStatus = (device, status) => ({
 });
 
 const mediaState = (device, state) => ({
-    type: MEDIA_STATE,
-    payload: {
-        device,
-        state
-    }
+    type: state,
+    payload: device
 });
 
 const mediaMetadata = (device, { images, title, albumName, albumArtist, artist }) => ({
@@ -63,7 +63,10 @@ const mediaPlaybackRate = (device, rate) => ({
 
 module.exports = {
     MEDIA_STATUS,
-    MEDIA_STATE,
+    MEDIA_STATE_PLAYING,
+    MEDIA_STATE_PAUSED,
+    MEDIA_STATE_IDLE,
+    MEDIA_STATE_BUFFERING,
     MEDIA_METADATA,
     MEDIA_DURATION,
     MEDIA_CURRENT_TIME,

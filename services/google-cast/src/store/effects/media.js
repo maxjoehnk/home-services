@@ -1,6 +1,11 @@
 const { put, takeEvery, select } = require('redux-saga/effects');
+const logger = require('../../logger');
 const {
     MEDIA_STATUS,
+    MEDIA_STATE_PLAYING,
+    MEDIA_STATE_PAUSED,
+    MEDIA_STATE_IDLE,
+    MEDIA_STATE_BUFFERING,
     mediaState,
     mediaMetadata,
     mediaDuration,
@@ -13,7 +18,23 @@ function* mediaStatus(action) {
     const { current, last } = yield select(state => state.media[device]);
 
     if (current && (last && current.playerState !== last.playerState || !last)) {
-        yield put(mediaState(device, current.playerState));
+        switch (current.playerState) {
+            case 'PLAYING':
+                yield put(mediaState(device, MEDIA_STATE_PLAYING));
+                break;
+            case 'PAUSED':
+                yield put(mediaState(device, MEDIA_STATE_PAUSED));
+                break;
+            case 'IDLE':
+                yield put(mediaState(device, MEDIA_STATE_IDLE));
+                break;
+            case 'BUFFERING':
+                yield put(mediaState(device, MEDIA_STATE_BUFFERING));
+                break;
+            default:
+                logger.warn(`Unknown Player State ${current.playerState}`);
+                break;
+        }
     }
 
     if (current &&

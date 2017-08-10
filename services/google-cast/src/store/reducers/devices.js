@@ -3,7 +3,10 @@ const {
     CAST_ONLINE,
     APPLICATION_LAUNCH,
     APPLICATION_EXIT,
-    MEDIA_STATE,
+    MEDIA_STATE_PLAYING,
+    MEDIA_STATE_PAUSED,
+    MEDIA_STATE_IDLE,
+    MEDIA_STATE_BUFFERING,
     MEDIA_METADATA,
     MEDIA_DURATION,
     MEDIA_CURRENT_TIME,
@@ -48,10 +51,28 @@ const reduceDevice = (state, action) => {
                 application: undefined,
                 media: undefined
             });
-        case MEDIA_STATE:
+        case MEDIA_STATE_PLAYING:
             return Object.assign({}, state, {
                 media: Object.assign({}, state.media, {
-                    state: action.payload.state
+                    state: 'PLAYING'
+                })
+            });
+        case MEDIA_STATE_PAUSED:
+            return Object.assign({}, state, {
+                media: Object.assign({}, state.media, {
+                    state: 'PAUSED'
+                })
+            });
+        case MEDIA_STATE_IDLE:
+            return Object.assign({}, state, {
+                media: Object.assign({}, state.media, {
+                    state: 'IDLE'
+                })
+            });
+        case MEDIA_STATE_BUFFERING:
+            return Object.assign({}, state, {
+                media: Object.assign({}, state.media, {
+                    state: 'BUFFERING'
                 })
             });
         case MEDIA_METADATA:
@@ -100,7 +121,6 @@ const reduce = (state = {}, action) => {
         }
         case APPLICATION_LAUNCH:
         case MEDIA_METADATA:
-        case MEDIA_STATE:
         case MEDIA_DURATION:
         case MEDIA_CURRENT_TIME:
         case MEDIA_PLAYBACK_RATE:
@@ -108,6 +128,10 @@ const reduce = (state = {}, action) => {
             return Object.assign({}, state, {
                 [action.payload.device]: reduceDevice(state[action.payload.device], action)
             });
+        case MEDIA_STATE_PLAYING:
+        case MEDIA_STATE_PAUSED:
+        case MEDIA_STATE_IDLE:
+        case MEDIA_STATE_BUFFERING:
         case APPLICATION_EXIT:
         case VOLUME_MUTE:
         case VOLUME_UNMUTE:
