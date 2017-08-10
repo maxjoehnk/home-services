@@ -30,6 +30,8 @@
     "@ngrx/effects": "^4.0.2",
     "@ngrx/store": "^4.0.2",
     "@ngrx/store-devtools": "^4.0.0",
+    "bunyan": "^1.8.12",
+    "bunyan-format": "^0.2.1",
     "core-js": "^2.4.1",
     "eslint": "^4.4.1",
     "express": "^4.15.3",

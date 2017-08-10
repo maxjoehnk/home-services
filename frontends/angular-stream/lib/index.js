@@ -1,5 +1,6 @@
 const express = require('express');
 const api = require('./api');
+const logger = require('./logger');
 
 const { loadConfig, defaultOptions } = require('./config');
 
@@ -9,8 +10,10 @@ async function setup() {
     const app = express();
 
     app.use('/_api', api(config));
-    app.listen(8080, () => console.log('listening'));
+    app.listen(8080, () => logger.info('listening', 8080));
 }
 
+logger.level('debug');
+
 setup()
-    .catch(err => console.error(err));
+    .catch(err => logger.error(err));
