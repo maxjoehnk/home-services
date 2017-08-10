@@ -6,7 +6,9 @@ module.exports = config => {
         getProviderByName,
         fetchInputs,
         fetchLights,
-        fetchCasts
+        fetchCasts,
+        fetchWeather,
+        fetchForecast
     } = providers(config);
 
     const fetchYamahaAvrCard = async(provider, { priority, name }) => {
@@ -71,6 +73,21 @@ module.exports = config => {
             }));
     };
 
+    const fetchWeatherCards = async (provider, { priority }) => {
+        const [current, forecast] = await Promise.all([
+            fetchWeather(provider),
+            fetchForecast(provider)
+        ]);
+        return {
+            type: 'weather',
+            payload: {
+                current,
+                forecast
+            },
+            priority
+        };
+    };
+
     const fetchStream = async() => {
         const stream = await Promise.all(config.stream.cards.map(async card => {
             switch (card.type) {
@@ -97,6 +114,16 @@ module.exports = config => {
                     const provider = getProviderByName(card.provider);
                     try {
                         return await fetchGoogleCastCards(provider, card);
+                    }catch (err) {
+                        logger.error(err);
+                    }
+                    break;
+                }
+                case 'weather': {
+                    const provider = getProviderByName(card.provider);
+                    try {
+                        const weather = await fetchWeatherCards(provider, card);
+                        return [weather];
                     }catch (err) {
                         logger.error(err);
                     }

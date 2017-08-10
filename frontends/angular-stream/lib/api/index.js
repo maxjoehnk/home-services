@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { stream: streamStub, chips, presence } = require('../stubs');
+const { chips, presence } = require('../stubs');
 const providers = require('../providers');
 const stream = require('../stream');
 
@@ -19,7 +19,7 @@ module.exports = config => {
         try {
             const stream = await fetchStream();
             res.status(200);
-            res.json([...stream, ...streamStub]);
+            res.json(stream);
             res.end();
         }catch (err) {
             return next(err);
