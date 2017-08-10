@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
+import { MdSnackBar, MdSnackBarRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { IState, IStreamState } from '../store';
@@ -14,6 +14,7 @@ import * as ReconnectingWebSocket from 'reconnecting-websocket';
 export class StreamComponent implements OnInit {
     stream: Observable<IStreamState>;
     ws: WebSocket;
+    snackBarRef: MdSnackBarRef<any>;
 
     constructor(private store: Store<IState>, private snackBar: MdSnackBar) {
         this.stream = store.select('stream');
@@ -21,16 +22,21 @@ export class StreamComponent implements OnInit {
 
     ngOnInit() {
         this.store.dispatch(new LoadCards());
-        this.snackBar.open('Connecting...');
+        this.snackBarRef = this.snackBar.open('Connecting...');
         this.ws = new ReconnectingWebSocket('ws://192.168.2.165:8080');
         this.ws.addEventListener('message', event => {
             this.store.dispatch(new LoadCardsSuccess(JSON.parse(event.data)));
         });
         this.ws.addEventListener('close', () => {
-            this.snackBar.open('Connecting...');
+            if (!this.snackBarRef) {
+                this.snackBar.open('Connecting...');
+            }
         });
         this.ws.addEventListener('open', () => {
-            this.snackBar.dismiss();
+            this.snackBarRef = undefined;
+            this.snackBar.open('Connected', null, {
+                duration: 1000
+            });
         });
     }
 }
