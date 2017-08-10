@@ -18,5 +18,6 @@ export class StreamComponent implements OnInit {
 
     ngOnInit() {
         this.store.dispatch(new LoadCards());
+        setInterval(() => this.store.dispatch(new LoadCards()), 5000);
     }
 }
