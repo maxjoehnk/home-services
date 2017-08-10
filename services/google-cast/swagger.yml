@@ -23,6 +23,12 @@ definitions:
         type: string
       name:
         type: string
+      idle:
+        type: boolean
+      volume:
+        type: number
+      mute:
+        type: boolean
       application:
         $ref: '#/definitions/Application'
       media:
@@ -47,6 +53,9 @@ definitions:
         type: string
         enum:
           - PLAYING
+          - PAUSED
+          - BUFFERING
+          - IDLE
       metadata:
         $ref: '#/definitions/MetaData'
       duration:
@@ -80,6 +89,12 @@ paths:
       tags:
       - devices
       description: Get a list of available Devices
+      parameters:
+      - name: idle
+        in: query
+        type: boolean
+        description: Include idle chromecasts
+        default: true
       responses:
         200:
           description: OK
@@ -148,4 +163,3 @@ paths:
             $ref: '#/definitions/Application'
         404:
           $ref: '#/responses/device_not_found'
-    

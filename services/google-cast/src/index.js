@@ -23,6 +23,7 @@ async function start(args) {
             log: logger
         });
         server.use(plugins.requestLogger());
+        server.use(plugins.queryParser());
         setupRoutes(server, store);
         server.listen(config.port, () => {
             logger.info(`Listening on Port ${config.port}`);
