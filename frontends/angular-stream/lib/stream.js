@@ -73,7 +73,7 @@ module.exports = config => {
             }));
     };
 
-    const fetchWeatherCards = async (provider, { priority }) => {
+    const fetchWeatherCards = async(provider, { priority }) => {
         const [current, forecast] = await Promise.all([
             fetchWeather(provider),
             fetchForecast(provider)
