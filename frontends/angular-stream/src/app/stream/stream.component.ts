@@ -23,7 +23,7 @@ export class StreamComponent implements OnInit {
     ngOnInit() {
         this.store.dispatch(new LoadCards());
         this.snackBarRef = this.snackBar.open('Connecting...');
-        this.ws = new ReconnectingWebSocket('ws://192.168.2.165:8080');
+        this.ws = new ReconnectingWebSocket(`ws://${location.host}`);
         this.ws.addEventListener('message', event => {
             this.store.dispatch(new LoadCardsSuccess(JSON.parse(event.data)));
         });
