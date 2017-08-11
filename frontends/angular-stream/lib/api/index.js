@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const { chips, presence } = require('../stubs');
 const providers = require('../providers');
 const stream = require('../stream');
 
@@ -28,13 +27,13 @@ module.exports = config => {
 
     router.get('/chips', (req, res) => {
         res.status(200);
-        res.json(chips);
+        res.json([]);
         res.end();
     });
 
     router.get('/presence', (req, res) => {
         res.status(200);
-        res.json(presence);
+        res.json([]);
         res.end();
     });
 
