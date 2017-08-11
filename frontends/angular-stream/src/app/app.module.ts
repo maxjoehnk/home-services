@@ -17,7 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import reducers from './store';
-import effects from './store/effects';
+import { effects } from './store/effects';
 
 import { AppComponent } from './app.component';
 import { WeatherCardComponent } from './cards/weather-card/weather-card.component';
