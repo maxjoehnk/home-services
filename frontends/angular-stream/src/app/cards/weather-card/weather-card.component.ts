@@ -8,7 +8,7 @@ import { ICard, ICardStyle } from '../card.interface';
 })
 export class WeatherCardComponent {
 
-    weather = {};
+    weather: any = {};
     style: ICardStyle = {};
 
     @Input()

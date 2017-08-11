@@ -8,9 +8,15 @@ interface IGoogleCastCard {
     id: string;
     name: string;
     application?: {
-        title: string;
-        name: string;
-        image: string;
+        id: string;
+        displayName: string;
+        statusText: string;
+    };
+    media?: {
+        metadata?: {
+            image: string;
+            title: string;
+        };
     };
 }
 

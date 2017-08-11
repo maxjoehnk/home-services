@@ -7,7 +7,7 @@ import { ICard, ICardStyle } from '../card.interface';
   styleUrls: ['./philips-hue-card.component.scss']
 })
 export class PhilipsHueCardComponent {
-    light = {};
+    light: any = {};
     style: ICardStyle = {};
 
     @Input()

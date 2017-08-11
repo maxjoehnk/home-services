@@ -8,7 +8,7 @@ import { ICard, ICardStyle } from '../card.interface';
 })
 export class YamahaAvrCardComponent {
 
-    avr = {};
+    avr: any = {};
     style: ICardStyle = {};
 
     @Input()
