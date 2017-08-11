@@ -12,6 +12,7 @@ async function setup() {
     const config = await loadConfig(options.config);
     const { fetchStream } = stream(config);
     const app = express();
+    app.use(express.static(options.dist));
     app.use('/_api', api(config));
     const server = createServer(app);
     const wss = new Server({ server });

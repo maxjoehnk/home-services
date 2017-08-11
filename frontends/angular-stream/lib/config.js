@@ -8,6 +8,7 @@ const readFile = promisify(fs.readFile);
 function defaultOptions(options) {
     const defaults = {
         config: resolve(__dirname, '../config.yml'),
+        dist: resolve(__dirname, '../dist'),
         logLevel: 'warn'
     };
     return Object.assign({}, defaults, options);
