@@ -16,6 +16,7 @@ function defaultOptions(options) {
 
 function defaultConfig(config) {
     const defaults = {
+        port: 8080,
         providers: [],
         stream: {
             enabled: true

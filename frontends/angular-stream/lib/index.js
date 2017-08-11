@@ -28,7 +28,7 @@ async function setup() {
             clearInterval(interval);
         });
     });
-    server.listen(8080, () => logger.info('listening', 8080));
+    server.listen(config.port, () => logger.info('listening', config.port));
 }
 
 logger.level('debug');
