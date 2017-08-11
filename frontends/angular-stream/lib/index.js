@@ -4,7 +4,6 @@ const { createServer } = require('http');
 const api = require('./api');
 const logger = require('./logger');
 const stream = require('./stream');
-const { stream: stub } = require('./stubs');
 
 const { loadConfig, defaultOptions } = require('./config');
 
@@ -21,7 +20,7 @@ async function setup() {
         const interval = setInterval(async() => {
             const stream = await fetchStream();
             if (ws.readyState === OPEN) {
-                ws.send(JSON.stringify([...stream, ...stub]));
+                ws.send(JSON.stringify(stream));
             }
         }, 1000);
         ws.on('close', () => {
