@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const { promisify } = require('util');
 const { safeLoad } = require('js-yaml');
 const { createServer, plugins } = require('restify');
+const { Server, OPEN } = require('ws');
 const setupRoutes = require('./routes');
 const setupCast = require('./cast');
 const createStore = require('./store');
@@ -21,6 +22,15 @@ async function start(args) {
         setupCast(store);
         const server = createServer({
             log: logger
+        });
+        const wss = new Server({ server: server.server });
+        wss.on('connection', (ws, req) => logger.debug({ req }));
+        store.subscribe(() => {
+            wss.clients.forEach(client => {
+                if (client.readyState === OPEN) {
+                    client.send('UPDATE');
+                }
+            });
         });
         server.use(plugins.requestLogger());
         server.use(plugins.queryParser());

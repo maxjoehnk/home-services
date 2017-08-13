@@ -1,4 +1,7 @@
 const fetch = require('node-fetch');
+const { parse } = require('url');
+const WebSocket = require('ws');
+const logger = require('./logger');
 
 module.exports = config => {
     const getProvidersOfType = type =>
@@ -80,7 +83,7 @@ module.exports = config => {
 
     const mapCodeToIcon = code => {
         let icon = 'mdi-weather-';
-        switch(code) {
+        switch (code) {
             case 300:
             case 301:
             case 302:
@@ -186,6 +189,27 @@ module.exports = config => {
 
     const activateScene = ({ url }, scene) => fetch(`${url}/scenes/${scene}/activate`);
 
+    const subscribe = (providers, callback) => {
+        const subscribable = [
+            'google-cast'
+        ];
+        providers
+            .filter(({ type }) => subscribable.includes(type))
+            .map(({ url }) => parse(url))
+            .map(({ host, path }) => `ws://${host}/${path}`)
+            .forEach(url => {
+                const socket = new WebSocket(url);
+                socket.on('open', () => {
+                    logger.debug(`Connected to ${url}`);
+                });
+                socket.on('message', data => {
+                    if (data === 'UPDATE') {
+                        callback();
+                    }
+                });
+            });
+    };
+
     return {
         getProvidersOfType,
         getProviderByName,
@@ -196,6 +220,7 @@ module.exports = config => {
         fetchLights,
         fetchCasts,
         fetchWeather,
-        fetchForecast
+        fetchForecast,
+        subscribe
     };
 };
