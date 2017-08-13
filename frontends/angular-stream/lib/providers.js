@@ -207,6 +207,7 @@ module.exports = config => {
                         callback();
                     }
                 });
+                socket.on('error', err => logger.error(err));
             });
     };
 
