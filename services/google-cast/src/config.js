@@ -16,6 +16,7 @@ function defaultOptions(options) {
 
 function defaultConfig(config) {
     const defaults = {
+        port: 8080,
         devices: {}
     };
     return Object.assign({}, defaults, config);

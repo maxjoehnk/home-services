@@ -1,15 +1,10 @@
-const fs = require('fs');
-const { resolve } = require('path');
-const { promisify } = require('util');
-const { safeLoad } = require('js-yaml');
 const { createServer, plugins } = require('restify');
 const setupRoutes = require('./routes');
 const setupCast = require('./cast');
 const createStore = require('./store');
 const { eventSetup } = require('./store/actions');
 const logger = require('./logger');
-
-const readFile = promisify(fs.readFile);
+const { defaultOptions, loadConfig } = require('./config');
 
 async function start(args) {
     try {
@@ -31,28 +26,6 @@ async function start(args) {
     }catch (err) {
         logger.fatal(err);
     }
-}
-
-function defaultOptions(options) {
-    const defaults = {
-        config: resolve(__dirname, '../config.yml'),
-        logLevel: 'warn'
-    };
-    return Object.assign({}, defaults, options);
-}
-
-function defaultConfig(config) {
-    const defaults = {
-        port: 8080,
-        devices: {}
-    };
-    return Object.assign({}, defaults, config);
-}
-
-async function loadConfig(path) {
-    const file = await readFile(path, 'utf8');
-    const config = safeLoad(file); //TODO: Validate result
-    return defaultConfig(config);
 }
 
 module.exports = {
