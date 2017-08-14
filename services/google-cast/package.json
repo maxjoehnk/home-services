@@ -6,8 +6,8 @@
     "bin": "bin/cast-service",
     "scripts": {
         "start": "bin/cast-service",
-        "lint": "eslint src/** bin/**",
-        "test": "echo \"Error: no test specified\" && exit 0"
+        "lint": "eslint src/** bin/** test/**",
+        "test": "mocha"
     },
     "repository": {
         "type": "git",
@@ -33,6 +33,12 @@
         "yargs": "^8.0.2"
     },
     "devDependencies": {
-        "eslint": "^4.3.0"
+        "chai": "^4.1.1",
+        "chai-as-promised": "^7.1.1",
+        "eslint": "^4.3.0",
+        "mocha": "^3.5.0",
+        "mockery": "^2.1.0",
+        "sinon": "^3.2.0",
+        "sinon-chai": "^2.13.0"
     }
 }
