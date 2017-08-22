@@ -1,0 +1,45 @@
+{
+    "name": "rss-service",
+    "version": "1.0.0",
+    "description": "Expose Chromecasts as a HTTP Endpoint",
+    "main": "src/index.js",
+    "bin": "bin/rss-service",
+    "scripts": {
+        "start": "bin/rss-service",
+        "lint": "eslint src/** bin/** test/**",
+        "test": "mocha",
+        "remotedev": "remotedev"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maxjoehnk/home-services.git"
+    },
+    "author": "Max Jöhnk <maxjoehnk@gmail.com>",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/maxjoehnk/home-services/issues"
+    },
+    "homepage": "https://github.com/maxjoehnk/home-services#readme",
+    "dependencies": {
+        "bunyan": "^1.8.10",
+        "bunyan-format": "^0.2.1",
+        "feedparser": "^2.2.1",
+        "js-yaml": "^3.9.0",
+        "node-fetch": "^1.7.2",
+        "redux": "^3.7.2",
+        "redux-saga": "^0.15.6",
+        "remote-redux-devtools": "^0.5.12",
+        "restify": "^5.0.1",
+        "yargs": "^8.0.2"
+    },
+    "devDependencies": {
+        "chai": "^4.1.1",
+        "chai-as-promised": "^7.1.1",
+        "eslint": "^4.3.0",
+        "mocha": "^3.5.0",
+        "mockery": "^2.1.0",
+        "remotedev-server": "^0.2.3",
+        "sinon": "^3.2.0",
+        "sinon-chai": "^2.13.0"
+    }
+}
