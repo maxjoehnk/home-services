@@ -15,10 +15,10 @@ for service in services/*/ ; do
     npm i --ignore-scripts
 done
 
-cd $root
+# cd $root
 
-for frontend in frontends/*/ ; do
-    echo "Installing dependencies of Frontend $(basename $frontend)..."
-    cd "$root/$frontend"
-    npm i
-done
+# for frontend in frontends/*/ ; do
+#     echo "Installing dependencies of Frontend $(basename $frontend)..."
+#     cd "$root/$frontend"
+#     npm i
+# done
