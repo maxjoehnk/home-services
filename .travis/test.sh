@@ -21,15 +21,15 @@ for service in services/*/ ; do
     fi
 done
 
-cd $root
+# cd $root
 
-for frontend in frontends/*/ ; do
-    echo "Testing frontend $(basename $frontend)..."
-    cd "$root/$frontend"
-    npm run test-ci --silent
-    if [ $? != 0 ]; then
-        result=1
-    fi
-done
+# for frontend in frontends/*/ ; do
+#     echo "Testing frontend $(basename $frontend)..."
+#     cd "$root/$frontend"
+#     npm run test-ci --silent
+#     if [ $? != 0 ]; then
+#         result=1
+#     fi
+# done
 
 exit $result
