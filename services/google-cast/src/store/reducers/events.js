@@ -15,7 +15,7 @@ const reduce = (state = {}, action) => {
                             urls
                         };
                         events.forEach(type => {
-                            if (device.hasOwnProperty(type)) {
+                            if (device.hasOwnProperty(type)) {
                                 device[type].push(meta);
                             }else {
                                 device[type] = [meta];

@@ -20,7 +20,10 @@ function emit(event) {
             logger.warn('Invalid Device ID', id);
         }
         const name = yield select(({ names }) => names[id]);
-        const emitters = yield select(({ events }) => events[name] ? events[name][event] : []);
+        const emitters = yield select(state => {
+            const { events } = state;
+            return events[name] ? events[name][event] : [];
+        });
         if (emitters && emitters.length > 0) {
             logger.debug(`Emitting ${event} for ${id} (${name})`);
             const application = yield select(({ devices }) => devices[id].application);

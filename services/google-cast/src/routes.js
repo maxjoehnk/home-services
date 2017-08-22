@@ -1,7 +1,6 @@
 const { NotFoundError } = require('restify-errors');
 
 module.exports = (server, { getState }) => {
-
     const getDevices = (req, res, next) => {
         const { devices } = getState();
         let ids = Object.getOwnPropertyNames(devices);
