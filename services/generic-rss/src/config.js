@@ -8,7 +8,8 @@ const readFile = promisify(fs.readFile);
 function defaultOptions(options) {
     const defaults = {
         config: resolve(__dirname, '../config.yml'),
-        logLevel: 'warn'
+        logLevel: 'warn',
+        debug: false
     };
     return Object.assign({}, defaults, options);
 }
@@ -16,6 +17,7 @@ function defaultOptions(options) {
 function defaultConfig(config) {
     const defaults = {
         port: 8080,
+        interval: 1800000,
         feeds: []
     };
     return Object.assign({}, defaults, config);
