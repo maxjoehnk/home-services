@@ -1,7 +1,7 @@
 const { createServer, plugins } = require('restify');
 const logger = require('./logger');
 const { defaultOptions, loadConfig } = require('./config');
-const { configFeedLoad } = require('./store/actions/config');
+const { configLoad } = require('./store/actions/config');
 const createStore = require('./store');
 
 async function start(args) {
@@ -10,7 +10,7 @@ async function start(args) {
         logger.level(options.logLevel);
         const config = await loadConfig(options.config);
         const store = createStore(options);
-        store.dispatch(configFeedLoad(config));
+        store.dispatch(configLoad(config));
         const server = createServer({
             log: logger
         });

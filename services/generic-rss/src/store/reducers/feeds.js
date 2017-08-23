@@ -1,12 +1,13 @@
 const {
-    CONFIG_FEED_LOAD
+    CONFIG_LOAD
 } = require('../actions');
 
 const reduce = (state = {}, action) => {
     switch (action.type) {
-        case CONFIG_FEED_LOAD: {
+        case CONFIG_LOAD: {
+            const { feeds } = action.payload;
             const result = {};
-            action.payload.forEach(feed => {
+            feeds.forEach(feed => {
                 result[feed.id] = feed;
             });
             return result;

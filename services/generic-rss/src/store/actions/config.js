@@ -1,11 +1,11 @@
-const CONFIG_FEED_LOAD = '[Config] Feed Load';
+const CONFIG_LOAD = '[Config] Load';
 
-const configFeedLoad = ({ feeds }) => ({
-    type: CONFIG_FEED_LOAD,
-    payload: feeds
+const configLoad = config => ({
+    type: CONFIG_LOAD,
+    payload: config
 });
 
 module.exports = {
-    CONFIG_FEED_LOAD,
-    configFeedLoad
+    CONFIG_LOAD,
+    configLoad
 };
