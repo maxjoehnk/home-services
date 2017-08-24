@@ -1,3 +1,4 @@
+const { NotFoundError } = require('restify-errors');
 const { expect, use } = require('chai');
 const { stub, match } = require('sinon');
 const asPromised = require('chai-as-promised');
@@ -108,7 +109,7 @@ describe('routes', function() {
                         expect(res.status).not.to.have.been.called;
                         expect(res.json).not.to.have.been.called;
                         expect(res.end).not.to.have.been.called;
-                        expect(next).to.have.been.called;
+                        expect(next).to.have.been.calledWith(match.instanceOf(NotFoundError));
                         done();
                     }
                 });
@@ -152,12 +153,106 @@ describe('routes', function() {
                 routes(server, store);
                 expect(server.get).to.have.been.calledWith('/feeds/:id/meta', match.func);
             });
+
+            it('should return a NotFoundError when called with an invalid id', function(done) {
+                const req = {
+                    params: {
+                        id: 'test2'
+                    }
+                };
+                const next = stub();
+
+                server.get.callsFake((route, cb) => {
+                    if (route === '/feeds/:id/meta') {
+                        cb(req, res, next);
+                        expect(store.getState).to.have.been.called;
+                        expect(res.status).not.to.have.been.called;
+                        expect(res.json).not.to.have.been.called;
+                        expect(res.end).not.to.have.been.called;
+                        expect(next).to.have.been.calledWith(match.instanceOf(NotFoundError));
+                        done();
+                    }
+                });
+                routes(server, store);
+            });
+
+            it('should return the specified feed', function(done) {
+                const result = {
+                    title: 'test'
+                };
+
+                const req = {
+                    params: {
+                        id: 'test'
+                    }
+                };
+
+                server.get.callsFake((route, cb) => {
+                    if (route === '/feeds/:id/meta') {
+                        cb(req, res);
+                        expect(store.getState).to.have.been.called;
+                        expect(res.status).to.have.been.calledWith(200);
+                        expect(res.json).to.have.been.calledWith(result);
+                        expect(res.end).to.have.been.called;
+                        done();
+                    }
+                });
+                routes(server, store);
+            });
         });
 
         describe('GET /feeds/:id/items', function() {
             it('should register the route', function() {
                 routes(server, store);
                 expect(server.get).to.have.been.calledWith('/feeds/:id/items', match.func);
+            });
+
+            it('should return a NotFoundError when called with an invalid id', function(done) {
+                const req = {
+                    params: {
+                        id: 'test2'
+                    }
+                };
+                const next = stub();
+
+                server.get.callsFake((route, cb) => {
+                    if (route === '/feeds/:id/items') {
+                        cb(req, res, next);
+                        expect(store.getState).to.have.been.called;
+                        expect(res.status).not.to.have.been.called;
+                        expect(res.json).not.to.have.been.called;
+                        expect(res.end).not.to.have.been.called;
+                        expect(next).to.have.been.calledWith(match.instanceOf(NotFoundError));
+                        done();
+                    }
+                });
+                routes(server, store);
+            });
+
+            it('should return the specified feed', function(done) {
+                const result = [
+                    {
+                        title: '#1'
+                    }
+                ];
+
+                const req = {
+                    params: {
+                        id: 'test'
+                    }
+                };
+
+                server.get.callsFake((route, cb) => {
+                    if (route === '/feeds/:id/items') {
+                        cb(req, res);
+                        expect(store.getState).to.have.been.called;
+                        expect(res.status).to.have.been.calledWith(200);
+                        expect(res.json).to.have.been.calledWith(result);
+                        expect(res.end).to.have.been.called;
+                        done();
+                    }
+                });
+                routes(server, store);
             });
         });
     });

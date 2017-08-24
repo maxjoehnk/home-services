@@ -31,17 +31,25 @@ module.exports = (server, store) => {
         res.end();
     });
 
-    server.get('/feeds/:id/items', (req, res) => {
-        const { items } = store.getState();
+    server.get('/feeds/:id/items', (req, res, next) => {
+        const { id } = req.params;
+        const { items, feeds } = store.getState();
+        if (!feeds[id]) {
+            return next(new NotFoundError(`Invalid Feed Id ${id}`));
+        }
         res.status(200);
-        res.json(items[req.params.id]);
+        res.json(items[id]);
         res.end();
     });
 
-    server.get('/feeds/:id/meta', (req, res) => {
-        const { meta } = store.getState();
+    server.get('/feeds/:id/meta', (req, res, next) => {
+        const { id } = req.params;
+        const { meta, feeds } = store.getState();
+        if (!feeds[id]) {
+            return next(new NotFoundError(`Invalid Feed Id ${id}`));
+        }
         res.status(200);
-        res.json(meta[req.params.id]);
+        res.json(meta[id]);
         res.end();
     });
 };
