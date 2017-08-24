@@ -6,12 +6,13 @@ const feedFetch = id => ({
     payload: id
 });
 
-const feedFetchSuccess = (id, { meta, items }) => ({
+const feedFetchSuccess = (id, { meta, items, hash }) => ({
     type: FEED_FETCH_SUCCESS,
     payload: {
         id,
         meta,
-        items
+        items,
+        hash
     }
 });
 

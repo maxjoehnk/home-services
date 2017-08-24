@@ -2,6 +2,7 @@ const { delay } = require('redux-saga');
 const { takeEvery, select, put, all, call } = require('redux-saga/effects');
 const logger = require('../../logger');
 const { parse } = require('../../feed');
+const hash = require('object-hash');
 const {
     CONFIG_LOAD,
     FEED_FETCH,
@@ -13,8 +14,13 @@ function* fetch(action) {
     const { payload: id } = action;
     const { url } = yield select(({ feeds }) => feeds[id]);
     try {
-        const feed = yield parse(url);
-        yield put(feedFetchSuccess(id, feed));
+        const { meta, items } = yield parse(url);
+        const hashed = hash(items);
+        yield put(feedFetchSuccess(id, {
+            meta,
+            items,
+            hash: hashed
+        }));
     }catch (err) {
         logger.error(err);
     }
@@ -34,9 +40,9 @@ function* refresh() {
     yield all(feeds.map(id => put(feedFetch(id))));
 }
 
-function* eventsSaga() {
+function* feedSaga() {
     yield takeEvery(FEED_FETCH, fetch);
     yield takeEvery(CONFIG_LOAD, setup);
 }
 
-module.exports = eventsSaga;
+module.exports = feedSaga;
