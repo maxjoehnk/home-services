@@ -24,14 +24,16 @@ describe('config', function() {
         it('should return default options when called with no arguments', function() {
             expect(config.defaultOptions()).to.deep.equal({
                 config: resolve(__dirname, '../config.yml'),
-                logLevel: 'warn'
+                logLevel: 'warn',
+                debug: false
             });
         });
 
         it('should not override argument properties', function() {
             const args = {
                 config: '/config.yml',
-                logLevel: 'debug'
+                logLevel: 'debug',
+                debug: false
             };
             expect(config.defaultOptions(args)).to.deep.equal(args);
         });
@@ -44,7 +46,8 @@ describe('config', function() {
             expect(config.defaultOptions(args)).to.deep.equal({
                 config: args.config,
                 logLevel: 'warn',
-                stub: 1
+                stub: 1,
+                debug: false
             });
         });
     });
@@ -57,6 +60,7 @@ describe('config', function() {
         it('should return a default config when called with no arguments', function() {
             expect(config.defaultConfig()).to.deep.equal({
                 port: 8080,
+                interval: 1800000,
                 feeds: []
             });
         });
@@ -64,6 +68,7 @@ describe('config', function() {
         it('should not override argument properties', function() {
             const args = {
                 port: 8081,
+                interval: 42,
                 feeds: [
                     {
                         id: 'test',
@@ -86,6 +91,7 @@ describe('config', function() {
             };
             expect(config.defaultConfig(args)).to.deep.equal({
                 port: 8080,
+                interval: 1800000,
                 feeds: args.feeds,
                 stub: 1
             });
@@ -155,6 +161,7 @@ describe('config', function() {
             };
             const result = {
                 option: 'value',
+                interval: 1800000,
                 port: 8080,
                 feeds: []
             };
