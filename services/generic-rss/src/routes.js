@@ -1,3 +1,5 @@
+const { NotFoundError } = require('restify-errors');
+
 module.exports = (server, store) => {
     server.get('/feeds', (req, res) => {
         const { items, meta, feeds } = store.getState();
@@ -14,11 +16,15 @@ module.exports = (server, store) => {
         res.end();
     });
 
-    server.get('/feeds/:id', (req, res) => {
-        const { items, meta } = store.getState();
+    server.get('/feeds/:id', (req, res, next) => {
+        const { id } = req.params;
+        const { items, meta, feeds } = store.getState();
+        if (!feeds[id]) {
+            return next(new NotFoundError(`Invalid Feed Id ${id}`));
+        }
         const result =  {
-            items: items[req.params.id],
-            meta: meta[req.params.id]
+            items: items[id],
+            meta: meta[id]
         };
         res.status(200);
         res.json(result);
