@@ -6,7 +6,7 @@ const parse = async url => {
     logger.debug(`Fetching Feed ${url}`);
     const res = await fetch(url);
     if (!res.ok) {
-        throw new Error(res);
+        throw new Error('Feed not reachable');
     }
     logger.debug(`Parsing Feed ${url}`);
     const parser = new FeedParser();
