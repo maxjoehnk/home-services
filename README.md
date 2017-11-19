@@ -20,6 +20,7 @@ This also allows a distributed installation of services, e.g. on multiple Raspbe
 
 ## Google
 - [Cast](https://github.com/maxjoehnk/home-services/tree/master/services/google-cast)
+- [Firebase](https://github.com/maxjoehnk/home-services/tree/master/services/google-firebase)
 
 ## Philips
 - [Hue](https://github.com/maxjoehnk/home-services/tree/master/services/philips-hue)
