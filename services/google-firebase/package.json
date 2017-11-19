@@ -4,7 +4,9 @@
   "main": "src/index.js",
   "bin": "bin/firebase",
   "scripts": {
-    "start": "bin/firebase-service"
+    "start": "bin/firebase-service",
+    "lint": "eslint src/** bin/** test/** functions/index.js",
+    "test": "mocha"
   },
   "dependencies": {
     "bunyan": "^1.8.12",
@@ -14,5 +16,8 @@
     "node-fetch": "^1.7.3",
     "restify": "^6.3.2",
     "yargs": "^10.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0"
   }
 }

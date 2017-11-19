@@ -15,6 +15,7 @@ function defaultOptions(options) {
 
 function defaultConfig(config) {
     const defaults = {
+        port: 8080,
         firebase: null,
         associations: {}
     };
