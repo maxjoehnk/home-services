@@ -62,3 +62,7 @@ config.yml
 # IntelliJ
 .idea
 *.iml
+
+# Firebase
+.firebaserc
+firebase.json
