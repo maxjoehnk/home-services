@@ -1,43 +1,12 @@
 const { createServer, plugins } = require('restify');
 const setupRoutes = require('./routes');
+const setupAssociations = require('./associations');
 const admin = require('firebase-admin');
-const fetch = require('node-fetch');
+const logger = require('./logger');
 const {
     loadConfig,
     defaultOptions
 } = require('./config');
-const logger = require('./logger');
-
-function setupAssociations(associations) {
-    const db = admin.database();
-    associations.forEach(assoc => {
-        db.ref(`/associations/${assoc.name}`)
-            .on('value', snapshot => {
-                const { value, notify } = snapshot.val();
-                if (!notify) {
-                    logger.debug(`Ignoring update of /associations/${assoc.name}`);
-                    return;
-                }
-                logger.debug(`/associations/${assoc.name} changed to ${value}`);
-                assoc.urls.forEach(url => {
-                    let invoke;
-                    let options;
-                    if (typeof url === 'string') {
-                        invoke = eval(`\`${url}\``);
-                        options = {};
-                    }else {
-                        invoke = eval(`\`${url.url}\``);
-                        options = url.options;
-                    }
-                    fetch(invoke, options)
-                        .then(() => {})
-                        .catch(err => {
-                            console.error(err);
-                        });
-                });
-            });
-    });
-}
 
 async function start(args) {
     try {
