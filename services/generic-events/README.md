@@ -1,0 +1,6 @@
+# events-service
+
+
+# Configuration
+```yaml
+```
