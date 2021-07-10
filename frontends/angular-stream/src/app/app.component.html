@@ -1,0 +1,6 @@
+<div class="stream" fxLayout="column">
+    <app-chips *ngIf="(configuration | async)?.chips"></app-chips>
+    <app-scenes *ngIf="(configuration | async)?.scenes"></app-scenes>
+    <app-presence *ngIf="(configuration | async)?.presence"></app-presence>
+    <app-stream *ngIf="(configuration | async)?.stream"></app-stream>
+</div>

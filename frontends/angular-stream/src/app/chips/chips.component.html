@@ -1,0 +1,8 @@
+<div fxLayout="row" class="container">
+    <div class="action" *ngFor="let chip of (chips | async)?.chips">
+    <span *ngIf="chip.type === 'weather'">{{ chip.temperature}}°</span>
+        <i class="mdi"
+           [ngClass]="'mdi-' + chip.icon"
+           *ngIf="chip.type === 'icon'"></i>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+<md-list>
+    <h3 md-subheader>At home right now</h3>
+</md-list>
+<div fxLayout="row" class="container">
+    <img class="action" *ngFor="let user of (presence | async)?.users" [src]="user.image"/>
+</div>

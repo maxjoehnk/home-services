@@ -1,0 +1,29 @@
+$card: 360px;
+$margin: 10px;
+$card-width: $card + $margin + $margin;
+
+.stream {
+    @media screen and (max-width: $card-width) {
+        max-width: $card-width;
+        width: 100%;
+    }
+
+    @media screen and (min-width: $card-width) {
+        width: $card-width;
+    }
+
+    @media screen and (min-width: 2 * $card-width) {
+        width: 2 * $card-width;
+    }
+
+    @media screen and (min-width: 3 * $card-width) {
+        width: 3 * $card-width;
+    }
+
+    @media screen and (min-width: 4 * $card-width) {
+        width: 4 * $card-width;
+    }
+
+    margin: 0 auto;
+    padding-top: 16px;
+}

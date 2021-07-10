@@ -1,0 +1,14 @@
+<md-card>
+    <md-card-header>
+        <div md-card-avatar>
+            <i class="mdi mdi-speaker"></i>
+        </div>
+        <md-card-title>{{avr.name}}</md-card-title>
+        <md-card-subtitle>Yamaha AVR</md-card-subtitle>
+    </md-card-header>
+    <md-card-content fxLayout="column">
+        <md-select placeholder="Input">
+            <md-option *ngFor="let input of avr.inputs" [value]="input">{{ input.display || input.name }}</md-option>
+        </md-select>
+    </md-card-content>
+</md-card>

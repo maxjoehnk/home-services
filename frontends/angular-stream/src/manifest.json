@@ -1,0 +1,8 @@
+{
+    "name": "Home Stream",
+    "short_name": "Home",
+    "start_url": "/index.html",
+    "background_color": "#eee",
+    "display": "standalone",
+    "orientation": "portrait"
+}

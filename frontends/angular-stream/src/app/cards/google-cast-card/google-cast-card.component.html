@@ -1,0 +1,15 @@
+<md-card>
+    <md-card-header>
+        <div md-card-avatar>
+            <i class="mdi mdi-cast"></i>
+        </div>
+        <md-card-title>{{cast.media?.metadata?.title || cast.application?.displayName}}</md-card-title>
+        <md-card-subtitle>{{cast.name}}</md-card-subtitle>
+    </md-card-header>
+    <img md-card-image [src]="cast.media?.metadata?.image" *ngIf="cast.media?.metadata?.image" />
+    <md-card-actions fxLayout>
+        <button md-button (click)="onStopClick()">Stop Casting</button>
+        <span fxFlex></span>
+        <button md-icon-button><i class="mdi mdi-pause"></i></button>
+    </md-card-actions>
+</md-card>
